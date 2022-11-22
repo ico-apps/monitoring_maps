@@ -1,0 +1,178 @@
+.leaflet-control-layers-expanded {
+
+    color: #1c2331;
+}
+
+
+/* Zoom and layer control */
+.leaflet-control-zoom {
+  box-shadow: 0px 1px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.layer_selector_btn {
+	background-color: #fff;
+	padding: 4px;
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+  cursor: pointer;
+	width: 34px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.layer_selector_btn i {
+  font-size: 1.7em;
+}
+
+.controls {
+  display: none;
+}
+
+.controls.open {
+  display: block;
+}
+
+
+.legend.leaflet-control{
+
+  background-color: #fff;
+  font-weight: 700;
+  color: #1c2331;
+  border-radius: 0px;
+  padding: 0;
+  border: none !important;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4) !important;
+  padding: 8px;
+  font-size: 1.3em;
+
+
+}
+
+.leaflet-control-layers {
+  display: block;
+}
+
+
+
+
+
+.leaflet-control-layers-expanded {
+  background-color: #fff;
+  font-weight: 700;
+  color: white;
+  border-radius: 0px;
+  padding: 0;
+  border: none !important;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4) !important;
+}
+
+.leaflet-control-layers-base {
+  width: 170px;
+}
+
+.leaflet-control-layers-base input {
+  display: none;
+}
+
+.leaflet-control-layers-base span {
+  display: block;
+  font-size: 1.3em;
+  line-height: 1,2em;
+  padding: 0.8em 1em;
+  cursor: pointer;
+  color: #1c2331;
+}
+
+.leaflet-control-layers-base span.source {
+  line-height: 1;
+  padding: 0;
+  font-size: 0.7em !important;
+  font-style: italic;
+
+}
+
+.leaflet-control-layers-base span:hover {
+  background-color: #1c2331;
+  color: #fff;
+
+}
+
+
+.leaflet-control-layers-base input:checked + span {
+  background-color: #1c2331;
+  color: #fff;
+}
+
+.leaflet-control-layers-base input:checked + span.source {
+  color: #fff;
+}
+
+
+.leaflet-control-layers-overlays {
+  width: 170px;
+}
+
+.leaflet-control-layers label{
+
+  margin-bottom: 0rem;
+
+}
+
+.leaflet-control-layers-overlays input {
+  display: none;
+}
+
+.leaflet-control-layers-overlays span {
+  display: block;
+  font-size: 1.3em;
+  line-height: 1,2em;
+  padding: 0.8em 1em;
+  cursor: pointer;
+  color: #1c2331;
+}
+
+.leaflet-control-layers-overlays span.source {
+  line-height: 1;
+  padding: 0;
+  font-size: 0.7em !important;
+  font-style: italic;
+
+}
+
+
+
+.leaflet-control-layers-overlays input:checked + span {
+  background-color: #1c2331;
+  color: #fff;
+}
+
+.leaflet-control-layers-overlays input:checked + span.source {
+  color: #fff;
+}
+
+.leaflet-control-zoom a {
+  background-color: #fff;
+  color: #000;
+}
+
+
+
+
+.legend.filter .remove-filter {
+  float: right;
+  color: #a8a8a8;
+  cursor: pointer;
+}
+
+.legend.filter .remove-filter:hover {
+  color: #000;
+}
+
+.legend.filter .info-text {
+  display: block;
+  float: left;
+  line-height: 14px;
+  width: 70%;
+}

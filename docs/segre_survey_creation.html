@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="NONE,NOARCHIVE" />
+
+  <title>#1 Fulleda – ICO monitoring</title>
+
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+
+  <!-- leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css"
+    integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+    integrity="sha256-XzD3RpaHPv7lzX9qt+2n1j5cWj48O24KsgaGYpKN8x8=" crossorigin="anonymous" />
+
+  <!-- bootstrap -->
+
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+
+  <!-- ico_monitoring -->
+  <link rel="stylesheet" type="text/css" href="../src/css/map.css" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.13/dist/css/bootstrap-select.min.css">
+
+    <style>
+    #map {
+      width: 100%;
+      height: 600px;
+    }
+    .section_info{
+
+      background-color: #fff;
+      border: 2px solid rgba(0,0,0,0.2);
+      background-clip: padding-box;
+      border-radius: 4px;
+      padding: 5px;
+    }
+    .obs_point {
+      text-align: center; /* Horizontally center the text (icon) */
+      line-height: 20px; /* Vertically center the text (icon) */
+    }
+    .rapis-custom-icon-1{
+      width: 24px !important;
+      height: 24px !important;
+      margin-left: -12px;
+      margin-top: -12px;
+      border-radius: 18px;
+      border: 2px solid #dc3545;
+      text-align: center;
+      color: #dc3545;
+      background-color: #fff;
+      font-size: 16px;
+    }
+
+
+    .rapis-custom-icon-2{
+      width: 24px !important;
+      height: 24px !important;
+      margin-left: -12px;
+      margin-top: -12px;
+      border-radius: 18px;
+      border: 2px solid #0056b3;
+      text-align: center;
+      color: #0056b3;
+      background-color: #fff;
+      font-size: 16px;
+    }
+    .rapis-custom-icon-3{
+      width: 24px !important;
+      height: 24px !important;
+      margin-left: -12px;
+      margin-top: -12px;
+      border-radius: 18px;
+      border: 2px solid #28a745;
+      text-align: center;
+      color: #28a745;
+      background-color: #fff;
+      font-size: 16px;
+    }
+
+    </style>
+
+
+
+
+
+</head>
+
+
+
+
+<body class="">
+
+
+  <div class="wrapper">
+
+    <div id="content" class="container-fluid pt-3 pl-4 pr-4">
+
+
+        <div class="row mb-4">
+
+          <div class="col-7">
+
+
+
+            <table id="obs_table" class="table table-sm mt-4">
+                    <thead>
+                      <tr>
+                          <th class="tg-0lax">Ordre</th>
+                          <th class="tg-0lax">Espècies</th>
+                          <th class="tg-0lax">Individus observats</th>
+                          <th class="tg-0lax">Start</th>
+                          <th class="tg-0lax">End</th>
+                          <th class="tg-0lax">Behaviour</th>
+                          <th class="tg-0lax">Obs. Location</th>
+                          <th class="tg-0lax">Observacions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr data-order="1" data-obs-location="2" data-coords="(2.3719158075853337, 41.74273993619717)">
+                          <td>
+
+
+                                <span class="badge badge-primary">1</span>
+
+
+                          </td>
+                          <td><i>Pernis apivorus</i></td>
+                          <td>2</td>
+                          <td>09:56:00</td>
+                          <td>09:58:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Outside visible area">
+
+
+                                    <i class="fas fa-square" aria-hidden="true"></i>
+
+
+                            </a>
+                          </td>
+                          <td>Possibles migrant.</td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="2" data-obs-location="3" data-coords="(2.3697980904839717, 41.741021326914804)">
+                          <td>
+
+                              <span class="badge badge-success">2</span>
+
+                          </td>
+                          <td><i>Buteo buteo</i></td>
+                          <td>1</td>
+                          <td>09:58:00</td>
+                          <td>09:59:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Inside visible area">
+
+                                <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+
+                            </a>
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="3" data-obs-location="2" data-coords="(2.379997959132599, 41.74500565862109)">
+                          <td>
+
+
+                                <span class="badge badge-primary">3</span>
+
+
+                          </td>
+                          <td><i>Buteo buteo</i></td>
+                          <td>1</td>
+                          <td>10:15:00</td>
+                          <td>10:16:00</td>
+                          <td><small>AdCrits</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Outside visible area">
+
+
+                                    <i class="fas fa-square" aria-hidden="true"></i>
+
+
+                            </a>
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="4" data-obs-location="2" data-coords="(2.3743372606513096, 41.74299700621526)">
+                          <td>
+
+
+                                <span class="badge badge-primary">4</span>
+
+
+                          </td>
+                          <td><i>Falco peregrinus</i></td>
+                          <td>1</td>
+                          <td>10:17:00</td>
+                          <td>10:18:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Outside visible area">
+
+
+                                    <i class="fas fa-square" aria-hidden="true"></i>
+
+
+                            </a>
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="5" data-obs-location="2" data-coords="(2.3814808790338184, 41.7337419341813)">
+                          <td>
+
+
+                                <span class="badge badge-primary">5</span>
+
+
+                          </td>
+                          <td><i>Accipiter gentilis</i></td>
+                          <td>1</td>
+                          <td>10:22:00</td>
+                          <td>10:23:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Outside visible area">
+
+
+                                    <i class="fas fa-square" aria-hidden="true"></i>
+
+
+                            </a>
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="6" data-obs-location="2" data-coords="(2.385938955199653, 41.72902413026504)">
+                          <td>
+
+
+                                <span class="badge badge-primary">6</span>
+
+
+                          </td>
+                          <td><i>Accipiter nisus</i></td>
+                          <td>1</td>
+                          <td>10:28:00</td>
+                          <td>10:29:00</td>
+                          <td><small>Territ</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Outside visible area">
+
+
+                                    <i class="fas fa-square" aria-hidden="true"></i>
+
+
+                            </a>
+                          </td>
+                          <td>Ataca al PERAPI.</td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="7" data-obs-location="2" data-coords="(2.385467986030505, 41.729102899015416)">
+                          <td>
+
+
+                                <span class="badge badge-primary">7</span>
+
+
+                          </td>
+                          <td><i>Pernis apivorus</i></td>
+                          <td>1</td>
+                          <td>10:28:00</td>
+                          <td>10:31:00</td>
+                          <td><small>Territ</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Outside visible area">
+
+
+                                    <i class="fas fa-square" aria-hidden="true"></i>
+
+
+                            </a>
+                          </td>
+                          <td>Vols nupcials.</td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="8" data-obs-location="3" data-coords="(2.3728043436231063, 41.740658439608765)">
+                          <td>
+
+                              <span class="badge badge-success">8</span>
+
+                          </td>
+                          <td><i>Hieraaetus pennatus</i></td>
+                          <td>1</td>
+                          <td>11:04:00</td>
+                          <td>11:08:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Inside visible area">
+
+                                <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+
+                            </a>
+                          </td>
+                          <td>Fase clara.</td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="9" data-obs-location="3" data-coords="(2.369524323673881, 41.739421192800386)">
+                          <td>
+
+                              <span class="badge badge-success">9</span>
+
+                          </td>
+                          <td><i>Buteo buteo</i></td>
+                          <td>1</td>
+                          <td>11:22:00</td>
+                          <td>11:24:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Inside visible area">
+
+                                <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+
+                            </a>
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="10" data-obs-location="3" data-coords="(2.367987415228343, 41.73751606654524)">
+                          <td>
+
+                              <span class="badge badge-success">10</span>
+
+                          </td>
+                          <td><i>Buteo buteo</i></td>
+                          <td>1</td>
+                          <td>11:50:00</td>
+                          <td>11:52:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Inside visible area">
+
+                                <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+
+                            </a>
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="11" data-obs-location="3" data-coords="(2.3706303900563137, 41.74099879337708)">
+                          <td>
+
+                              <span class="badge badge-success">11</span>
+
+                          </td>
+                          <td><i>Buteo buteo</i></td>
+                          <td>1</td>
+                          <td>12:07:00</td>
+                          <td>12:08:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Inside visible area">
+
+                                <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+
+                            </a>
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="12" data-obs-location="2" data-coords="(2.3735427879004902, 41.74656927583166)">
+                          <td>
+
+
+                                <span class="badge badge-primary">12</span>
+
+
+                          </td>
+                          <td><i>Accipiter nisus</i></td>
+                          <td>1</td>
+                          <td>12:13:00</td>
+                          <td>12:14:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Outside visible area">
+
+
+                                    <i class="fas fa-square" aria-hidden="true"></i>
+
+
+                            </a>
+                          </td>
+                          <td>Perseguit per un corb.</td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="13" data-obs-location="3" data-coords="(2.3723881465152408, 41.73510159473464)">
+                          <td>
+
+                              <span class="badge badge-success">13</span>
+
+                          </td>
+                          <td><i>Pernis apivorus</i></td>
+                          <td>2</td>
+                          <td>12:35:00</td>
+                          <td>12:38:00</td>
+                          <td><small>Territ</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Inside visible area">
+
+                                <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+
+                            </a>
+                          </td>
+                          <td>Vol nupcial.</td>
+                          <td></td>
+                        </tr>
+
+                        <tr data-order="14" data-obs-location="3" data-coords="(2.3770334077550923, 41.73729451232857)">
+                          <td>
+
+                              <span class="badge badge-success">14</span>
+
+                          </td>
+                          <td><i>Falco subbuteo</i></td>
+                          <td>1</td>
+                          <td>12:52:00</td>
+                          <td>12:54:00</td>
+                          <td><small>Obs</small></td>
+                          <td>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Inside visible area">
+
+                                <i class="fas fa-draw-polygon" aria-hidden="true"></i>
+
+                            </a>
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            <p class="text-center"><button id="bt_remove_last_obs" type="button" class="btn btn-outline-danger d-none">Elimina darrera observació</button></p>
+
+            <div id="add_observation_form" class="card p-2 d-none">
+
+              <div class="row">
+                <div class="col-4">
+                  <div class="pl-0 pr-0 pb-3">
+                    <label class="col-sm col-form-label pl-0" for="hbw_taxonomy_latin">Espècie</label>
+                    <div class="col-sm pl-0 pr-0">
+                      <select class="form-control" id="species_list">
+                        <option value="2">Aves sp.</option>
+                        <option value="52739">Ciconia nigra</option>
+                        <option value="52744">Ciconia ciconia</option>
+                        <option value="52947">Pandion haliaetus</option>
+                        <option value="52958">Pernis apivorus</option>
+                        <option value="52966">Elanus caeruleus</option>
+                        <option value="52977">Milvus milvus</option>
+                        <option value="52978">Milvus migrans</option>
+                        <option value="52986">Haliaeetus albicilla</option>
+                        <option value="52992">Gypaetus barbatus</option>
+                        <option value="52993">Neophron percnopterus</option>
+                        <option value="52998">Gyps rueppelli</option>
+                        <option value="53000">Gyps fulvus</option>
+                        <option value="53002">Aegypius monachus</option>
+                        <option value="53006">Circaetus gallicus</option>
+                        <option value="53021">Circus aeruginosus</option>
+                        <option value="53029">Circus cyaneus</option>
+                        <option value="53031">Circus macrourus</option>
+                        <option value="53033">Circus pygargus</option>
+                        <option value="53077">Accipiter nisus</option>
+                        <option value="53089">Accipiter gentilis</option>
+                        <option value="53137">Buteo buteo</option>
+                        <option value="53141">Buteo rufinus</option>
+                        <option value="53144">Buteo lagopus</option>
+                        <option value="53154">Clanga pomarina</option>
+                        <option value="53155">Clanga clanga</option>
+                        <option value="53158">Aquila adalberti</option>
+                        <option value="53159">Aquila heliaca</option>
+                        <option value="53162">Aquila chrysaetos</option>
+                        <option value="53165">Aquila fasciata</option>
+                        <option value="53167">Hieraaetus pennatus</option>
+                        <option value="53212">Falco naumanni</option>
+                        <option value="53213">Falco tinnunculus</option>
+                        <option value="53226">Falco vespertinus</option>
+                        <option value="53228">Falco eleonorae</option>
+                        <option value="53231">Falco columbarius</option>
+                        <option value="53234">Falco subbuteo</option>
+                        <option value="53242">Falco biarmicus</option>
+                        <option value="53244">Falco cherrug</option>
+                        <option value="53247">Falco peregrinus</option>
+                        <option value="53560">Grus grus</option>
+                        <option value="10000000">Accipiter gentilis / nisus</option>
+                        <option value="10000017">Aquila sp.</option>
+                        <option value="10000027">Buteo sp.</option>
+                        <option value="10000039">Ciconia sp.</option>
+                        <option value="10000042">Circus sp.</option>
+                        <option value="10000053">Falco naumanni / tinnunculus</option>
+                        <option value="10000055">Falco sp.</option>
+                        <option value="10000056">Falconiformes sp.</option>
+                        <option value="10000080">Milvus sp.</option>
+                        <option value="10000096">Pernis apivorus / Buteo buteo</option>
+
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="pl-0 pr-0 pb-3">
+                    <label class="col-sm col-form-label pl-0" for="hbw_taxonomy_latin">Count</label>
+                    <div class="col-sm pl-0 pr-0">
+                      <input id="count" class="form-control" type="number">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="pl-0 pr-0 pb-3">
+                    <label class="col-sm col-form-label pl-0" for="id_time_start">Hora d'inici</label>
+                    <div class="col-sm pl-0 pr-0">
+                    <div class="input-group">
+                      <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-clock" aria-hidden="true"></i></span></div>
+                      <input type="time" name="time_start" value="10:00" class="form-control pl-0 pr-0" placeholder="Hora d'inici" title="" required="" id="id_time_start">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="pl-0 pr-0 pb-3">
+                    <label class="col-sm col-form-label pl-0" for="id_time_end">Hora final</label>
+                    <div class="col-sm pl-0 pr-0">
+                    <div class="input-group">
+                      <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-clock" aria-hidden="true"></i></span></div>
+                      <input type="time" name="time_end" value="10:00" class="form-control pl-0 pr-0" placeholder="Hora final" title="" required="" id="id_time_end">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="pl-0 pr-0 pb-3">
+                    <label class="col-sm col-form-label pl-0" for="hbw_taxonomy_latin">Comportaments</label>
+                    <div class="col-sm pl-0 pr-0">
+                      <select id="behaviou" class="form-control" multiple>
+                        <option value="Obs">Observació en època i hàbitat adequats</option>
+                        <option value="Territ">Marcatge territorial, parada o vol nupcial</option>
+                        <option value="AdCrits">Vocalitzacions adults en la fase pre-posta</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="pl-0 pr-0 pb-3">
+                    <label class="col-sm col-form-label pl-0" for="hbw_taxonomy_latin">Comentaris</label>
+                    <div class="col-sm pl-0 pr-0">
+                      <textarea rows="3" id="comments" class="form-control" placeholder="Comentaris"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-1 mt-5">
+
+                    <button type="button" class="btn btn-primary" id="bt_add_observation">Afegeix</button>
+                    <button type="button" class="btn btn-danger mt-1" id="rm_add_observation">Elimina</button>
+                </div>
+              </div>
+              <p class="text-danger">Aquests inputs seran hidden</p>
+              <div class="row">
+                <div class="col-3">Latitude<input type="text" id="latitude" name="latitude"/></div>
+                <div class="col-3">Longitude<input type="text" id="longitude" name="longitude"/></div>
+                <div class="col-3">Obs_location<input type="text" id="inside" name="obs_location"/></div>
+                <div class="col-3">Order in map<input type="text" id="order" name="order"/></div>
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+
+          <div class="col-5">
+
+
+            <div id="map" class="mx-auto" style="width: 100%;height:620px;"></div>
+
+
+          </div>
+
+
+        </div>
+
+    </div><!-- ./content -->
+  </div><!-- ./wrapper -->
+
+
+
+  <!-- font awesome -->
+  <script src="https://kit.fontawesome.com/969e4441b7.js" crossorigin="anonymous"></script>
+
+  <script crossorigin="anonymous" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+  <!-- leaflet & dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"
+    integrity="sha256-KJI74PS1qv3+hue+yyIWK/l8TxvS9u4WX7QDrtHkHOo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"
+    integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"
+    integrity="sha256-siofc4Uwjlra3YWkwthOn8Uj69cNN4aMug/iOHNiRgs=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.3.0/turf.min.js"
+    integrity="sha512-UNb2hkE/KkMe2ZBw0CWxpenoO0uudaEkJ0PT4cfGxCdL3sRSwaW7XyveNc9ZO0PQEq28FduAv8VvHaAjPbboBw==" crossorigin="anonymous"></script>
+
+  <script src="../src/js/shp/leaflet.filelayer.js"></script>
+  <script src="../src/js/shp/shp.min.js"></script>
+  <script src="../src/js/shp/togeojson.js"></script>
+
+  <script src="../src/js/map.js"></script>
+  <script src="../src/js/protocols/draw_segre.js"></script>
+  <script src="../src/js/shape_manager.js"></script>
+  <script src="../src/js/map_layers.js"></script>
+
+    <script>
+
+      /* Leaflet map init with some active layers and centered to Catalonia */
+      var map=MapMultiLayer.init(
+        {'active_layers':['aerial','osm', 'topo'],
+        'zoom':8,
+        'center':{'latitude':41.68111756290652,'longitude':1.702880859375},
+        'layer_selector_position': 'topleft'
+        }
+      );
+
+      /* Init drawing lib for the SOCC monitoringscheme. Only allows to draw or upload 6 LineStrings   */
+
+      MonitoringSiteDraw.init('rapis','observations');
+
+      MonitoringSiteDraw.bindEvent('observation_create',function(coords, obs_location, i){
+
+          $('#add_observation_form').removeClass('d-none');
+          $('#latitude').val(coords['lat']);
+          $('#longitude').val(coords['lng']);
+          $('#obs_location').val(obs_location);
+          MonitoringSiteDraw.deactivate();
+          $('#order').val(i);
+
+
+      });
+
+
+
+      var shape={'type': 'Feature', 'geometry': {'type': 'Polygon', 'coordinates': [[[2.39746341, 41.75091347], [2.42753169, 41.75106722], [2.42773164, 41.72855065], [2.39767386, 41.72839703], [2.39746341, 41.75091347]]]}};
+
+      MonitoringSiteDraw.loadGeometry('rapis',shape,
+        function(message_type, message){
+
+            if(message_type=='error'){
+
+              $("#alert").text(message);
+              $("#alert").addClass('alert-danger');
+              $("#alert").removeClass('invisible alert-success');
+
+            }
+
+        });
+
+
+        createObservationMarkers();
+
+        function createObservationMarkers(){
+
+          // var points='Observations';
+          //
+          // LayerManager.clearLayer(points);
+          //
+          // LayerManager.create(points,{
+          //         color: "#0056b3",
+          //         fillColor: "#0056b3",
+          //         fillOpacity: 0,
+          //         radius: 90.0
+          //     });
+
+
+            $('#obs_table tbody tr').each(function() {
+                var coords=$(this).data('coords');
+                var array_coords=coords.substring(1, coords.length-1).split(', ');
+                var data={'order': $(this).data('order'),'obs_location': $(this).data('obs-location')};
+
+                MonitoringSiteDraw.addGeometry([array_coords[1],array_coords[0]], data,'observations');
+
+            });
+
+
+
+        }
+
+            $('#bt_add_observation').on("click", function(){
+
+                //Fer-ho maco i guai
+                var order=$('#order').val();
+                var count=$('#count').val();
+                var id_time_start=$('#id_time_start').val();
+                var id_time_end=$('#id_time_end').val();
+                var species_name=$('#species_list option:selected').text();
+                var behaviou = $('#behaviou').val();
+                var obs_location = $('#obs_location').val();
+
+                obs_location_conv={'1': 'Fora de quadrat', '2': 'Fora de l\'àrea visible', '3':'Dins de l\'àrea visible'};
+
+                var inside='';
+
+                if($('#inside').val()=='1'){
+
+                    inside='<a href="#" data-toggle="tooltip" data-placement="top" title="'+obs_location_conv[obs_location]+'"><i class="fas fa-times-circle"></i></a>';
+
+                }
+                else{
+
+                  inside='<a href="#" data-toggle="tooltip" data-placement="top" title="'+obs_location_conv[obs_location]+'"><i class="fas fa-draw-polygon"></i></a>';
+
+                }
+
+
+
+                var comments=$('#comments').val();
+
+                obs_location_badge_classes={'1': 'danger', '2': 'info', '3':'success'};
+
+
+
+                $('#obs_table tbody').append('<tr><td><span class="badge badge-'+obs_location_badge_classes[obs_location]+'">'+order+'</span></td><td><i>'+species_name+'</i></td>'+
+                '<td>'+count+'</td><td>'+id_time_start+'</td><td>'+id_time_end+'</td><td><small>'+behaviou+'</small></td><td>'+inside+'</td><td>'+comments+'</td><td></td></tr>');
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+
+                $('#add_observation_form input').val('');
+                $('#add_observation_form select').selectpicker('val','');
+                $('#add_observation_form textarea').val('');
+
+                $('#add_observation_form').addClass('d-none');
+                $('#bt_remove_last_obs').removeClass('d-none');
+
+
+                MonitoringSiteDraw.activate();
+
+
+            });
+
+            $('#rm_add_observation').on("click", function(){
+
+                var order=parseInt($('#order').val());
+                MonitoringSiteDraw.removeLayer(order-1);
+                $('#add_observation_form').addClass('d-none');
+                MonitoringSiteDraw.activate();
+                if(order>1)$('#bt_remove_last_obs').addClass('d-none');
+
+
+            });
+
+            $('#bt_remove_last_obs').on("click", function(){
+
+                var order=$('#obs_table tbody tr').length;
+                MonitoringSiteDraw.removeLayer(order-1);
+                $('#obs_table tbody tr:last').remove();
+
+                if(order <= 1) $('#bt_remove_last_obs').addClass('d-none')
+
+            });
+
+    </script>
+
+
+</body>
+
+
+</html>

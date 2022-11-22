@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="NONE,NOARCHIVE" />
+
+  <title>#1 Fulleda – ICO monitoring</title>
+
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+
+  <!-- leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css"
+    integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+    integrity="sha256-XzD3RpaHPv7lzX9qt+2n1j5cWj48O24KsgaGYpKN8x8=" crossorigin="anonymous" />
+
+  <!-- bootstrap -->
+
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+
+  <!-- ico_monitoring -->
+  <link rel="stylesheet" type="text/css" href="../src/css/map.css" />
+
+    <style>
+    #map {
+      width: 100%;
+      height: 600px;
+    }
+
+    </style>
+
+
+
+
+
+</head>
+
+
+
+
+<body class="">
+
+
+  <div class="wrapper">
+
+    <div id="content" class="container-fluid pt-3 pl-4 pr-4">
+
+          <div class="row">
+
+            <div class="col-5">
+
+
+                    <div class="content-title mb-4">
+                      <div class="float-right">
+
+                      </div>
+
+                      <h1>PECBMS - New site</h1>
+
+                    </div>
+
+
+                        <form role="form" method="post">
+
+
+              <input type="hidden" name="csrfmiddlewaretoken" value="4IZRzRkY2eDpRFk71pQBbmAVRAPNLBVWfU26OyMM7jXQVbDm8BCfcAi6dHnAianN">
+              <div class="form-group">
+                <label for="id_code">Codi</label>
+                <input type="text" name="code" maxlength="255" class="form-control" placeholder="Codi" title="" required="" id="id_code">
+              </div>
+
+
+              <div class="alert alert-info" role="alert">
+                <b>You can set sites location in two ways:</b><br>
+                1) Click or drag marker on the map after zooming in to certain precise zoom level.<br>
+                2) Click on edit coordinates button, write latitude and longitude manualy
+              </div>
+
+              <div class="row">
+                <div class="col-5">
+                  <div class="form-group">
+                    <label for="id_code">Latitude</label>
+                    <input autocomplete="off" class="form-control" type="text" id="location_x" disabled/>
+                  </div>
+                </div>
+                <div class="col-5">
+                  <div class="form-group">
+                    <label for="id_code">Longitude</label>
+                    <input autocomplete="off" class="form-control" type="text" id="location_y" disabled/>
+                  </div>
+                </div>
+                <div class="col-2">
+
+                  <button id="editCoords" class="btn btn-sm btn-dark mt-4">Edit coordinates</button>
+                </div>
+              </div>
+
+
+            </form>
+
+
+
+              <div class="form-actions-no-box">
+                <input class="btn btn-success" type="submit" name="submit" value="Create monitoring site">
+              </div>
+
+            </div>
+            <div class="col-7">
+
+              <div id="map" class="mx-auto"></div>
+
+              <div id="zoomAlert" class="alert alert-danger mt-2 text-center" class="d-none;">
+                <i class="fas fa-search-plus"></i> You sould increase zoom to add or modify monitoring site location.
+              </div>
+
+            </div>
+
+
+
+          </div>
+
+
+    </div><!-- ./content -->
+  </div><!-- ./wrapper -->
+
+
+
+  <!-- font awesome -->
+  <script src="https://kit.fontawesome.com/969e4441b7.js" crossorigin="anonymous"></script>
+
+  <script crossorigin="anonymous" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+  <!-- leaflet & dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"
+    integrity="sha256-KJI74PS1qv3+hue+yyIWK/l8TxvS9u4WX7QDrtHkHOo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"
+    integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"
+    integrity="sha256-siofc4Uwjlra3YWkwthOn8Uj69cNN4aMug/iOHNiRgs=" crossorigin="anonymous"></script>
+
+  <script src="../src/js/shp/leaflet.filelayer.js"></script>
+  <script src="../src/js/shp/shp.min.js"></script>
+  <script src="../src/js/shp/togeojson.js"></script>
+
+  <script src="../src/js/map.js"></script>
+  <script src="../src/js/shape_manager.js"></script>
+  <script src="../src/js/map_layers.js"></script>
+
+
+    <script>
+
+      var zoom_limit=14;
+
+      /* Leaflet map init with some active layers and centered to Catalonia */
+      var map=MapMultiLayer.init(
+        {'active_layers':['aerial','osm', 'topo'],
+        'zoom':8,
+        'center':{'latitude':41.68111756290652,'longitude':1.702880859375},
+        'layer_selector_position': 'topleft'
+        }
+      );
+
+      var main_layer='New site';
+
+      LayerManager.create(main_layer,{
+        icon: new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          }),
+        draggable: 'true'
+        });
+
+
+    map.on('click', function(e){
+
+        if(map.getZoom() > zoom_limit){
+
+          if(LayerManager.getLayerMarkersCount(main_layer)>0)  LayerManager.updateMarkerLocation(1, e.latlng, main_layer);
+          else LayerManager.createDraggableMarker(main_layer, e.latlng, {'id':1}, dragEvent);
+
+          $('#location_y').val(e.latlng.lat);
+          $('#location_x').val(e.latlng.lng);
+
+        }
+
+    });
+
+    map.on('zoomend', function() {
+      if(map.getZoom() > zoom_limit) $('#zoomAlert').hide();
+      else $('#zoomAlert').show();
+    });
+
+    function dragEvent(e){
+
+        if(map.getZoom() > zoom_limit){
+
+          var position = e.target._latlng;
+          e.target.setLatLng(position, {
+            draggable: 'true'
+          });
+
+          $('#location_y').val(e.target._latlng.lat);
+          $('#location_x').val(e.target._latlng.lng);
+
+        }
+        else{
+
+          LayerManager.updateMarkerLocation(1, [$('#location_y').val(),$('#location_x').val()], main_layer);
+        }
+
+
+    }
+
+    $("#location_y, #location_x").change(function() {
+
+       var position = [parseFloat($("#location_y").val()), parseFloat($("#location_x").val())];
+
+       if(LayerManager.getLayerMarkersCount(main_layer)>0)  LayerManager.updateMarkerLocation(1, position, main_layer);
+       else LayerManager.createDraggableMarker(main_layer, position, {'id':1}, dragEvent);
+       map.setZoom(14);
+       map.panTo(position);
+     });
+
+     $( "#editCoords" ).on( "click", function() {
+
+            $('#location_x').prop( "disabled", false );
+            $('#location_y').prop( "disabled", false );
+
+       });
+
+    </script>
+
+
+</body>
+
+
+</html>
