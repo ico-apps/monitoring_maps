@@ -11,7 +11,6 @@
       var obs_zone=[];
 
       var drawControl='';
-      var info = L.control({'position':'bottomleft'});
 
       var _div='';
       var mode='';
