@@ -186,7 +186,7 @@
                 console.log(MonitoringDraw.toGeoJSON());
 
                 var d= {'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                    'shapes': JSON.stringify(MonitoringDraw.toGeoJSON())
+                    'shapes': JSON.stringify(alcedo2015.toGeoJSON())
                    };
                 var url = "."
                 $.post(url, d, function(response){
