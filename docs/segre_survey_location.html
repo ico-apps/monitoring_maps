@@ -136,7 +136,7 @@
 
   <script src="../src/js/map.js"></script>
   <script src="../src/js/protocols/draw_segre.js"></script>
-  <script src="../src/js/shape_manager.js"></script>
+  <script src="../src/js/draw_manager.js"></script>
 
 
     <script>
@@ -152,10 +152,10 @@
 
       /* Init drawing lib for the SOCC monitoringscheme. Only allows to draw or upload 6 LineStrings   */
 
-      MonitoringSiteDraw.init('rapis');
+      MonitoringDraw.init('rapis');
 
 
-      MonitoringSiteDraw.bindEvent('update_survey_location',function(obs_point, visibility){
+      MonitoringDraw.bindEvent('update_survey_location',function(obs_point, visibility){
 
         var obs_point_state='[no definida]';
         if(obs_point) obs_point_state='<i class="far fa-check-square"></i>';
@@ -173,7 +173,7 @@
 
       var shape={'type': 'Feature', 'geometry': {'type': 'Polygon', 'coordinates': [[[2.39746341, 41.75091347], [2.42753169, 41.75106722], [2.42773164, 41.72855065], [2.39767386, 41.72839703], [2.39746341, 41.75091347]]]}};
 
-      MonitoringSiteDraw.loadGeometry('rapis',shape,
+      MonitoringDraw.loadGeometry('rapis',shape,
         function(message_type, message){
 
             if(message_type=='error'){

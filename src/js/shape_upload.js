@@ -146,9 +146,9 @@
 
 
         loaded_obj_shp = {};
-        MonitoringSiteDraw.clearLayer();
+        MonitoringDraw.clearLayer();
 
-        if(MonitoringSiteDraw.isValidGeometry(data)){
+        if(MonitoringDraw.isValidGeometry(data)){
 
           for (step = 0; step < data.features.length; step++) {
 
@@ -183,20 +183,20 @@
                   }
               });
 
-              MonitoringSiteDraw.addFeature(loaded_layer.getLayers()[0]);
+              MonitoringDraw.addFeature(loaded_layer.getLayers()[0]);
 
             }
 
           }
 
 
-        MonitoringSiteDraw.fitUploadedShapeBounds();
+        MonitoringDraw.fitUploadedShapeBounds();
         remove_layer_id.show();
 
       }
       else{
 
-        result_handler('error',MonitoringSiteDraw.getError('invalid_shape'));
+        result_handler('error',MonitoringDraw.getError('invalid_shape'));
 
       }
 

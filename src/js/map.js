@@ -11,7 +11,6 @@
    *  MAP SETTINGS AND LEGEND
    */
 
-
   var map,
       lat,
       lng,

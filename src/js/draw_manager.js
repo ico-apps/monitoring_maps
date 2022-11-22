@@ -4,7 +4,7 @@
   // 'use strict';
 
 
-  function monitoringSiteDraw(){
+  function monitoringDraw(){
 
     var _drawMonitoringSiteObject = {};
 
@@ -446,8 +446,8 @@
   }
 
   // We need that our library is globally accesible, then we save in the window
-  if(typeof(window.MonitoringSiteDraw) === 'undefined'){
-    window.MonitoringSiteDraw = monitoringSiteDraw();
+  if(typeof(window.MonitoringDraw) === 'undefined'){
+    window.MonitoringDraw = monitoringDraw();
   }
 
 
