@@ -206,6 +206,13 @@
             map.fitBounds(layer.getBounds());
 
           }
+          else if (project=='plataformes') {
+
+            var layer=L.geoJson(geometry, {style: style_draw });
+            layer.addTo(map);
+            map.fitBounds(layer.getBounds());
+
+          }
 
       }
       else{
