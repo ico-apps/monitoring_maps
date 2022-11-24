@@ -22,7 +22,6 @@
   <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
 
   <!-- ico_monitoring -->
-  <link rel="stylesheet" type="text/css" href="css/default.css" />
   <link rel="stylesheet" type="text/css" href="../src/css/map.css" />
 
     <style>
@@ -38,10 +37,22 @@
       border-radius: 4px;
       padding: 5px;
     }
-    .obs_point {
+
+    .plataformes-precise-nest{
       text-align: center; /* Horizontally center the text (icon) */
-      line-height: 20px; /* Vertically center the text (icon) */
+      line-height: 24px; /* Vertically center the text (icon) */
+      width: 24px !important;
+      height: 24px !important;
+      margin-left: -12px;
+      margin-top: -12px;
+      border-radius: 18px;
+      border: 2px solid #869D96;
+      text-align: center;
+      color: #869D96;
+      background-color: #fff;
+      font-size: 16px;
     }
+
     </style>
 
 
@@ -74,40 +85,63 @@
           </div>
           <hr />
           <div class="row">
-
-            <div class="col-6">
-
-              <div id="map" class="mx-auto"></div>
-
-            </div>
-
-
-            <div class="col-6">
-
-
-
-
-            </div>
-
-
+            <div id="map" class="mx-auto"></div>
           </div>
-          <div class="card">
-            <div class="card-body">
-              <form action="#" method="post" onsubmit="return false;">
-              <input type="hidden" name="csrfmiddlewaretoken" value="gEZbLZ5xSpmFn7whY6ZsJIj1RRTZt1zb1Bn53nhPtTQikNt1xWdddJwHxcTRHeZe">
-              <div class="row mt-2">
-                <div class="col text-right">
-                  <button href="javascript:void(0)" id="exportShpLayer" class="btn btn-primary">Desar</button>
-                </div>
-                <div class="col text-left">
-                  <a href="/socc/monitoringsites/1/" class="btn btn-danger">Cancel</a>
+
+          <div class="row">
+            <div class="col-6">
+
+
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Upload monitoring site shape</h5>
+                  <form action="#" method="post" onsubmit="return false;">
+                  <input type="hidden" name="csrfmiddlewaretoken" value="gEZbLZ5xSpmFn7whY6ZsJIj1RRTZt1zb1Bn53nhPtTQikNt1xWdddJwHxcTRHeZe">
+                  <div class="row">
+                    <div class="col col-lg-2">
+                      <div class="">
+                        <input type="file" id="fileinput">
+                      </div>
+                    </div>
+                    <div class="col col-lg-2">
+                      <button class="btn btn-dark btn-sm" id="removeShpLayer" style="display:none;">Remove layer <i class="fas fa-trash"></i></button>
+                    </div>
+                  </div>
+                    </form>
+    
+    
                 </div>
               </div>
-              </form>
-
 
             </div>
+            <div class="col-6">
+
+
+              <div class="card">
+                <div class="card-body">
+                 
+                  <h5>Last platform geometry</h5>
+                  <textarea class="form-control" id="geojson_output">
+
+
+                  </textarea>
+    
+                </div>
+              </div>
+
+              
+            </div>
           </div>
+
+          <div class="row mt-2">
+            <div class="col text-right">
+              <button href="javascript:void(0)" id="exportShpLayer" class="btn btn-primary">Desar</button>
+            </div>
+            <div class="col text-left">
+              <a href="/socc/monitoringsites/1/" class="btn btn-danger">Cancel</a>
+            </div>
+          </div>
+
 
     </div><!-- ./content -->
   </div><!-- ./wrapper -->
@@ -135,10 +169,11 @@
   <script src="../src/js/shp/togeojson.js"></script>
 
   <script src="../src/js/map.js"></script>
-  <script src="../src/js/protocols/draw_segre.js"></script>
+  <script src="../src/js/shape_upload.js"></script>
+  <script src="../src/js/protocols/draw_plataformes.js"></script>
   <script src="../src/js/draw_manager.js"></script>
-
-
+  <script id="monitoringsite-geometry" type="application/json">{"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [[[3.014984, 41.876208], [3.049675, 41.879275], [3.049675, 41.888733], [3.023571, 41.892311], [3.014984, 41.876208]]]}}</script>
+  
     <script>
 
       /* Leaflet map init with some active layers and centered to Catalonia */
@@ -150,41 +185,39 @@
         }
       );
 
-      /* Init drawing lib for the SOCC monitoringscheme. Only allows to draw or upload 6 LineStrings   */
+      initDraw();
 
-      MonitoringDraw.init('rapis');
+    
+      function initDraw(){
 
+        MonitoringDraw.init('plataformes','site_location');
 
-      MonitoringDraw.bindEvent('update_survey_location',function(obs_point, visibility){
+        MonitoringDraw.bindEvent('update_site_geometry',function(site_location_geojson){
 
-        var obs_point_state='[no definida]';
-        if(obs_point) obs_point_state='<i class="far fa-check-square"></i>';
-
-        var obs_zone_state='[no definida]';
-        if(visibility) obs_zone_state='<i class="far fa-check-square"></i>';
-
-        var message= '<i class="fas fa-eye"></i> Punt d\'observació '+obs_point_state+'<br/>' +
-        '<i class="fas fa-draw-polygon"></i> Zona d\'observació '+obs_zone_state;
-
-      });
-
-
-
-
-      var shape={'type': 'Feature', 'geometry': {'type': 'Polygon', 'coordinates': [[[2.39746341, 41.75091347], [2.42753169, 41.75106722], [2.42773164, 41.72855065], [2.39767386, 41.72839703], [2.39746341, 41.75091347]]]}};
-
-      MonitoringDraw.addGeoJSONGeometry(shape,'survey_location',
-        function(message_type, message){
-
-            if(message_type=='error'){
-
-              $("#alert").text(message);
-              $("#alert").addClass('alert-danger');
-              $("#alert").removeClass('invisible alert-success');
-
-            }
+            $('#geojson_output').val(JSON.stringify(site_location_geojson));
 
         });
+
+
+        const monitoringsite_json = JSON.parse(document.getElementById('monitoringsite-geometry').textContent);
+
+        $('#geojson_output').val(JSON.stringify(monitoringsite_json));
+
+        MonitoringDraw.addGeoJSONGeometry(monitoringsite_json,'site_location',
+            function(message_type, message){
+
+                if(message_type=='error'){
+
+                $("#alert").text(message);
+                $("#alert").addClass('alert-danger');
+                $("#alert").removeClass('invisible alert-success');
+
+                }
+
+            }
+        );
+
+  }
 
 
 

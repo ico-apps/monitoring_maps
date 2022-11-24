@@ -37,6 +37,14 @@
         default_color: '#f0982a'
       };
 
+      var styles = {
+        'transect': {
+          "color": "#f0982a",
+          "weight": 2,
+          "opacity": 0.8
+        }
+      };
+
       var events={};
 
       _raptorCensusObject.init = function(mode){
@@ -48,6 +56,11 @@
 
       };
 
+      _raptorCensusObject.setStyle = function(_type, style){
+
+        return _raptorCensusObject.styles[_type] = style;
+  
+      };
 
       _raptorCensusObject.getError = function(error_code){
 
@@ -373,7 +386,7 @@
      };
 
 
-     _raptorCensusObject.addDrawGeometry = function (point, data, mode){
+     _raptorCensusObject.addPoint = function (point, data, _type){
 
        //return obs_point && obs_zone;
 
@@ -393,6 +406,54 @@
         return marker;
 
      };
+
+
+     _raptorCensusObject.addGeoJSONGeometry = function (geometry, _type, editableLayers){
+
+      if(_type=='square'){
+
+        var layer=L.geoJson(geometry, {style: style});
+        layer.addTo(map);
+        geometry_manager.setBounds(layer, _type);
+
+        map.fitBounds(layer.getBounds());
+
+
+      }
+      else if(_type=='visibility') {
+
+        if(geometry.type=='MultiPolygon'){
+
+          geometry['coordinates'].forEach(function (feature, index) {
+
+            var new_feature={type: "Feature", geometry: {type: "Polygon", coordinates: feature }};
+
+            var layer=L.geoJson(new_feature, {style: style });
+            layer.addTo(map);
+            geometry_manager.setBounds(layer, _type);
+
+          });
+
+        }
+        else{
+
+          var layer=L.geoJson(geometry, {style: style });
+          layer.addTo(map);
+          geometry_manager.setBounds(layer, _type);
+
+        }
+
+      }
+      else if(_type=='obs_point') {
+
+        var circle = L.circle([geometry['coordinates'][1],geometry['coordinates'][0]], style);
+        circle.addTo(map);
+
+      }
+
+    }
+
+
 
      _raptorCensusObject.clearObservations = function (){
 

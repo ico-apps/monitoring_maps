@@ -26,6 +26,14 @@
       };
 
 
+      var styles = {
+        'transect': {
+          "color": "#f0982a",
+          "weight": 2,
+          "opacity": 0.8
+        }
+      };
+
 
       var settings = {
         default_color: '#f0982a'
@@ -40,6 +48,12 @@
         return _transectSOCCObject;
 
 
+      };
+
+      _transectSOCCObject.setStyle = function(_type, style){
+
+        return _transectSOCCObject.styles[_type] = style;
+  
       };
 
       _transectSOCCObject.setDrawControl = function(draw_cont){
@@ -107,7 +121,49 @@
       };
 
 
+      _transectSOCCObject.addGeoJSONGeometry = function (geometry, _type, editableLayers){
 
+        /*if(_type=='site_location'){
+  
+          var layer=L.geoJson(geometry, {style: style });
+          layer.addTo(map);
+          map.fitBounds(layer.getBounds());
+  
+        }*/
+
+        for (i = 1; i < 7; i++) {
+
+          var feature={};
+
+          feature['type']='Feature';
+          feature['geometry']={};
+
+          feature['geometry']['coordinates']=geometry['features'][i-1]['geometry']['coordinates'];
+          feature['geometry']['type']=geometry['features'][i-1]['geometry']['type'];
+
+
+          var layer=L.geoJson(feature, {style: styles['transect'],
+              onEachFeature: function (feature, layer) {
+
+                  var props = feature.properties = feature.properties || {};
+                  props.section = i;
+
+              }
+          });
+
+          editableLayers.addLayer(layer.getLayers()[0]);
+
+        }
+
+        editableLayers.addTo(map);
+
+        map.fitBounds(editableLayers.getBounds());
+        _transectSOCCObject.drawSectionLimits(editableLayers);
+
+
+  
+      }
+  
 
       _transectSOCCObject.clearDrawing = function(){
 
@@ -117,6 +173,13 @@
 
       };
 
+
+      _transectSOCCObject.clear = function (){
+
+        _transectSOCCObject.clearSectionLimits();
+ 
+      };
+ 
 
       _transectSOCCObject.startDrawing = function(){
 
