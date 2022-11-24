@@ -676,7 +676,7 @@
 
       var shape={'type': 'Feature', 'geometry': {'type': 'Polygon', 'coordinates': [[[2.39746341, 41.75091347], [2.42753169, 41.75106722], [2.42773164, 41.72855065], [2.39767386, 41.72839703], [2.39746341, 41.75091347]]]}};
 
-      MonitoringDraw.loadGeometry('rapis',shape,
+      MonitoringDraw.addGeoJSONGeometry(shape,'square',
         function(message_type, message){
 
             if(message_type=='error'){
@@ -711,7 +711,7 @@
                 var array_coords=coords.substring(1, coords.length-1).split(', ');
                 var data={'order': $(this).data('order'),'obs_location': $(this).data('obs-location')};
 
-                MonitoringDraw.addGeometry([array_coords[1],array_coords[0]], data,'observations');
+                MonitoringDraw.addPoint([array_coords[1],array_coords[0]], data,'observations');
 
             });
 

@@ -53,7 +53,6 @@
 
           }
 
-
           map.addLayer(editableLayers);
 
           var options = {
@@ -83,7 +82,8 @@
       map.removeLayer(editableLayers);
       map.removeControl(drawControl);
 
-      if(this.project=='rapis') geometry_manager.clear();
+      //Clear specific protocol objects
+      geometry_manager.clear();
 
     };
 
@@ -96,19 +96,19 @@
 
 
 
-      _drawMonitoringSiteObject.activate = function(){
+    _drawMonitoringSiteObject.activate = function(){
 
-          geometry_manager.activate();
+        geometry_manager.activate();
 
-      };
+    };
 
 
 
-      _drawMonitoringSiteObject.deactivate = function(){
+    _drawMonitoringSiteObject.deactivate = function(){
 
-          geometry_manager.deactivate();
+        geometry_manager.deactivate();
 
-      };
+    };
 
     /**
      * Add the provided Leaflet layer to the map and draw libary and centers the map to the layer bounds
@@ -137,94 +137,29 @@
 
     };
 
+    _drawMonitoringSiteObject.setStyle = function(_type, style){
 
-
-    _drawMonitoringSiteObject.loadLocationShape = function( geometry, result_handler){
-
-      this.loadGeometry(project, geometry, result_handler);
+      return geometry_manager.setStyle(_type, style);
 
     };
 
-
-
-    _drawMonitoringSiteObject.loadGeometry = function(project, geometry, result_handler){
-
-      //console.log(geometry);
+    _drawMonitoringSiteObject.addGeoJSONGeometry = function(geometry, _type, result_handler){
 
       if(geometry_manager.isValid(geometry)){
 
-        //console.log('Valid geometry: '+project);
-
-        if(project=='socc'){
-
-            editableLayers = new L.FeatureGroup();
-            geometry_manager=SOCCTransect.init();
-
-            var style_draw = {
-                "color": "#f0982a",
-                "weight": 2,
-                "opacity": 0.8
-            };
-
-            for (i = 1; i < 7; i++) {
-
-              var feature={};
-
-              feature['type']='Feature';
-              feature['geometry']={};
-
-
-
-              feature['geometry']['coordinates']=geometry['features'][i-1]['geometry']['coordinates'];
-              feature['geometry']['type']=geometry['features'][i-1]['geometry']['type'];
-
-
-              var layer=L.geoJson(feature, {style: style_draw,
-                  onEachFeature: function (feature, layer) {
-
-                      var props = feature.properties = feature.properties || {};
-                      props.section = i;
-
-                  }
-              });
-
-              editableLayers.addLayer(layer.getLayers()[0]);
-
-            }
-
-
-            editableLayers.addTo(map);
-
-            map.fitBounds(editableLayers.getBounds());
-            geometry_manager.drawSectionLimits(editableLayers);
-
-          }
-          else if (project=='rapis') {
-
-            var layer=L.geoJson(geometry, {style: style_draw });
-            layer.addTo(map);
-            map.fitBounds(layer.getBounds());
-
-          }
-          else if (project=='plataformes') {
-
-            var layer=L.geoJson(geometry, {style: style_draw });
-            layer.addTo(map);
-            map.fitBounds(layer.getBounds());
-
-          }
+        //editableLayers = new L.FeatureGroup();
+        //geometry_manager=SOCCTransect.init();
+        geometry_manager.addGeoJSONGeometry(geometry, _type, editableLayers);
 
       }
       else{
-        //console.log('Invalid geometry: '+project);
 
-        result_handler('error',geometry_manager.getError('invalid_shape'));
+        if(result_handler) result_handler('error',geometry_manager.getError('invalid_shape'));
+        else console.log({'error':geometry_manager.getError('invalid_shape')});
 
       }
 
-
     };
-
 
     _drawMonitoringSiteObject.addFeature = function (layer){
 
@@ -232,95 +167,13 @@
 
     }
 
+    _drawMonitoringSiteObject.addPoint = function (geometry, data, _type){
 
-    _drawMonitoringSiteObject.addGeometry = function (geometry, data, mode){
+        layer = geometry_manager.addPoint(geometry, data, _type);
+        editableLayers.addLayer(layer);
 
-      if (this.project=='rapis') {
+    };
 
-        if(mode=='observations'){
-
-          var layer=geometry_manager.addDrawGeometry(geometry, data, mode);
-
-          editableLayers.addLayer(layer);
-
-        }
-
-      }
-      else if(this.project=='plataformes'){
-
-        if(mode=='site'){
-
-          var layer=geometry_manager.addDrawGeometry(geometry, data, mode);
-          editableLayers.addLayer(layer);
-
-        }
-
-
-      }
-
-    }
-
-    _drawMonitoringSiteObject.addGeoJSONGeometry = function (geometry, mode, style){
-
-      if (this.project=='rapis') {
-
-        if(mode=='square'){
-
-          var layer=L.geoJson(geometry, {style: style });
-          layer.addTo(map);
-          geometry_manager.setBounds(layer, mode);
-
-          map.fitBounds(layer.getBounds());
-
-
-        }
-        else if(mode=='visibility') {
-
-          if(geometry.type=='MultiPolygon'){
-
-            geometry['coordinates'].forEach(function (feature, index) {
-
-              var new_feature={type: "Feature", geometry: {type: "Polygon", coordinates: feature }};
-
-              var layer=L.geoJson(new_feature, {style: style });
-              layer.addTo(map);
-              geometry_manager.setBounds(layer, mode);
-
-            });
-
-
-          }
-          else{
-
-            var layer=L.geoJson(geometry, {style: style });
-            layer.addTo(map);
-            geometry_manager.setBounds(layer, mode);
-
-          }
-
-        }
-        else if(mode=='obs_point') {
-
-          var circle = L.circle([geometry['coordinates'][1],geometry['coordinates'][0]], style);
-          circle.addTo(map);
-
-        }
-
-
-      }
-      else if(this.project=='plataformes'){
-
-        if(mode=='site'){
-
-          var layer=L.geoJson(geometry, {style: style });
-          layer.addTo(map);
-          map.fitBounds(layer.getBounds());
-
-        }
-
-      }
-
-    }
 
     /**
      * Returns a GeoJson object with the drawn or uploaded features
@@ -402,17 +255,7 @@
      */
     _drawMonitoringSiteObject.clearLayer = function(){
 
-      if (this.project=='rapis') {
-
-        geometry_manager.clearObservations();
-
-      }
-      else{
-
-        geometry_manager.clearSectionLimits();
-
-      }
-
+      geometry_manager.clear();
       editableLayers.eachLayer(function(layer) { editableLayers.removeLayer(layer);});
 
     };
@@ -422,7 +265,6 @@
 
       var layer=geometry_manager.removeLayer(layer_id);
       editableLayers.removeLayer(layer);
-
 
     };
 
