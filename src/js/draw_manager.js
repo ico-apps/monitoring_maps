@@ -125,9 +125,9 @@
 
     };
 
-    _drawMonitoringSiteObject.isValidGeometry = function(geometry){
+    _drawMonitoringSiteObject.isValidGeometry = function(geometry, _type){
 
-      return geometry_manager.isValid(geometry);
+      return geometry_manager.isValid(geometry, _type);
 
     };
 
@@ -145,7 +145,7 @@
 
     _drawMonitoringSiteObject.addGeoJSONGeometry = function(geometry, _type, result_handler){
 
-      if(geometry_manager.isValid(geometry)){
+      if(geometry_manager.isValid(geometry, _type)){
 
         //editableLayers = new L.FeatureGroup();
         //geometry_manager=SOCCTransect.init();

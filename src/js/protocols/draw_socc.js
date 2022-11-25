@@ -34,6 +34,7 @@
         }
       };
 
+      var events={};
 
       var settings = {
         default_color: '#f0982a'
@@ -76,6 +77,13 @@
 
       }
 
+
+      _transectSOCCObject.bindEvent = function(event_name,event_function){
+
+        events[event_name]=event_function;
+
+      }
+
       _transectSOCCObject.addNewSection = function(layer){
 
         current_section=current_section+1;
@@ -87,18 +95,20 @@
 
           _transectSOCCObject.addSectionPoint(current_section-1,layer._latlngs[0],true);
           _transectSOCCObject.newSection(layer._latlngs[layer._latlngs.length -1]);
-
+          info.update();
+          return false;
 
         }
         else{
 
+
           _transectSOCCObject.addSectionPoint(current_section-1,layer._latlngs[0],true);
           _transectSOCCObject.addSectionPoint(sections,layer._latlngs[layer._latlngs.length -1]);
-
+          info.update();
+          return true;
 
         }
 
-        info.update();
 
       };
 
@@ -288,7 +298,7 @@
 
       };
 
-      _transectSOCCObject.isValid = function (data){
+      _transectSOCCObject.isValid = function (data, _type){
 
        if(data.type=='FeatureCollection'){
 
@@ -349,7 +359,10 @@
            var props = feature.properties = feature.properties || {};
 
            props.section = _transectSOCCObject.getCurrentSection();
-           _transectSOCCObject.addNewSection(layer);
+           finished = _transectSOCCObject.addNewSection(layer);
+
+           if(finished) events['update_transect'](editableLayers.toGeoJSON());
+
 
            //console.log(layer);
            editableLayers.addLayer(layer);
@@ -366,6 +379,9 @@
        map.on(L.Draw.Event.EDITSTOP, function (e) {
 
          _transectSOCCObject.drawSectionLimits(editableLayers);
+
+         events['update_transect']({});
+
          update(editableLayers)
 
        });
@@ -374,12 +390,15 @@
        map.on(L.Draw.Event.DELETED, function (e) {
 
          _transectSOCCObject.deletedFeatures();
+         events['update_transect']({});
 
          info.update();
 
        });
 
        map.on(L.Draw.Event.DRAWSTART, function (e) {
+
+         events['update_transect']({});
 
          new_drawing=_transectSOCCObject.startDrawing();
 
