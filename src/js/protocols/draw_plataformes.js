@@ -25,6 +25,11 @@
         default_color: '#869D96'
       };
 
+      var texts = {
+        'errors': {'invalid_shape': 'La localització del niu no té el format correcte. Ha de ser un punt o un polígon.'}
+      };
+
+
 
       var events={};
 
@@ -35,6 +40,11 @@
 
       var styles = {
         'obs_point': {},
+        'nesting_area':{
+          "color": "#869D96",
+          "weight": 3,
+          "fillOpacity": 0.45,
+        },
         'site_location' : {
           "color": "#869D96",
           "weight": 3,
@@ -276,7 +286,7 @@
 
                 info.update();
 
-                events['update_site_geometry'](editableLayers.toGeoJSON()['features'][0]);
+                events['update_site_location'](editableLayers.toGeoJSON()['features'][0]);
                 
 
           });
@@ -286,13 +296,13 @@
 
             e.layers.eachLayer(function (layer) {
                 //do whatever you want; most likely save back to db
-                //
-                if(layer['editing']._marker!=null) _plataformesObject.removeObsPoint('');
-                if(layer['editing']._poly!=null) _plataformesObject.removeObsZone();
+
+                _plataformesObject.clearObsPoint();
+                _plataformesObject.clearNestLocation();
 
             });
             //info.update();
-            events['update_survey_location'](obs_point!='',obs_zone.length > 0);
+            events['update_site_location']({});
 
           });
 
@@ -325,10 +335,10 @@
       };
 
 
-    _plataformesObject.isValid = function (feature){
+    _plataformesObject.isValid = function (feature, _type){
 
-        return feature.type=='Feature' && feature.geometry.type=='Polygon' &&
-        feature.geometry.coordinates[0].length == 5;
+        return feature.type=='Feature' && (feature.geometry.type=='Polygon' ||
+        feature.geometry.type=='Point');
 
      };
 
@@ -341,15 +351,8 @@
 
      _plataformesObject.addPoint = function (point, data, mode){
 
-      var marker = new L.Marker(point, {icon: L.divIcon({
-        html: '<i class="fa fa-eye fa-2x" style="color: black"></i>',
-        iconSize: [30, 30],
-        className: 'obs_point'
-        })
-        });
-
-      this.setPreciseNest(marker);
-      info.update();
+      var marker = new L.Marker(point);
+      //info.update();
 
       return marker;
 
@@ -358,15 +361,50 @@
 
     _plataformesObject.addGeoJSONGeometry = function (geometry, _type, editableLayers){
 
-      if(_type=='site_location'){
+      if(_type=='nest_precise'){
 
-        //TODO: put in editLayers
+        var coordinates = geometry['geometry']['coordinates'];
+
+        var marker = new L.Marker([coordinates[1],coordinates[0]], {icon: L.divIcon({
+          html: 'N',
+          className: 'plataformes-precise-nest'
+          })
+        });
+
+        marker.addTo(map);
+        map.setView([coordinates[1],coordinates[0]], 18);
+        editableLayers.addLayer(marker);
+
+
+      }
+      else if(_type=='nesting_area'){
 
         var layer=L.geoJson(geometry, {style: styles[_type]});
         layer.addTo(map);
         map.fitBounds(layer.getBounds());
 
+        editableLayers.addLayer(layer);
+
+
       }
+      else if(_type=='obs_point'){
+
+        var coordinates = geometry['geometry']['coordinates'];
+
+        var marker = new L.Marker(point, {icon: L.divIcon({
+          html: '<i class="fa fa-eye fa-2x" style="color: black"></i>',
+          iconSize: [30, 30],
+          className: 'obs_point'
+          })
+        });
+
+        marker.addTo(map);
+        //map.setView([coordinates[1],coordinates[0]], 18);
+        editableLayers.addLayer(marker);
+
+
+      }
+
 
     }
 

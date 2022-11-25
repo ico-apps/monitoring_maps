@@ -148,7 +148,7 @@
         loaded_obj_shp = {};
         MonitoringDraw.clearLayer();
 
-        if(MonitoringDraw.isValidGeometry(data)){
+        if(MonitoringDraw.isValidGeometry(data,'transect')){
 
           for (step = 0; step < data.features.length; step++) {
 

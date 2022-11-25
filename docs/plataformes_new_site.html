@@ -87,60 +87,64 @@
           <div class="row">
             <div id="map" class="mx-auto"></div>
           </div>
-
-          <div class="row">
-            <div class="col-6">
-
-
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Upload monitoring site shape</h5>
-                  <form action="#" method="post" onsubmit="return false;">
-                  <input type="hidden" name="csrfmiddlewaretoken" value="gEZbLZ5xSpmFn7whY6ZsJIj1RRTZt1zb1Bn53nhPtTQikNt1xWdddJwHxcTRHeZe">
-                  <div class="row">
-                    <div class="col col-lg-2">
-                      <div class="">
-                        <input type="file" id="fileinput">
+          <form action="#" method="post" onsubmit="return false;">
+            <div class="row mt-2">
+              <div class="col-6">
+  
+  
+  
+                <div class="card">
+                  <div class="card-body">
+  
+  
+                    <h5 class="card-title">{% trans 'Upload monitoring site shape' %}</h5>
+               
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-8">
+                        <div class="">
+                          <input type="file" id="fileinput">
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <button class="btn btn-dark btn-sm" id="removeShpLayer" style="display:none;">{% trans 'Remove layer' %} <i class="fas fa-trash"></i></button>
                       </div>
                     </div>
-                    <div class="col col-lg-2">
-                      <button class="btn btn-dark btn-sm" id="removeShpLayer" style="display:none;">Remove layer <i class="fas fa-trash"></i></button>
-                    </div>
-                  </div>
-                    </form>
-    
-    
-                </div>
-              </div>
-
-            </div>
-            <div class="col-6">
-
-
-              <div class="card">
-                <div class="card-body">
                  
-                  <h5>Last platform geometry</h5>
-                  <textarea class="form-control" id="geojson_output">
-
-
-                  </textarea>
-    
+  
+                  </div>
                 </div>
+  
               </div>
-
-              
+              <div class="col-6">
+  
+  
+                <div class="card">
+                  <div class="card-body">
+                   
+                    <h5>{% trans 'Last platform geometry' %}</h5>
+                    <textarea class="form-control" id="geojson_output" disabled>
+  
+  
+                    </textarea>
+      
+                  </div>
+                </div>
+  
+                
+              </div>
             </div>
-          </div>
-
-          <div class="row mt-2">
-            <div class="col text-right">
-              <button href="javascript:void(0)" id="exportShpLayer" class="btn btn-primary">Desar</button>
+  
+            <div class="row mt-2">
+              <div class="col text-right">
+                <button href="javascript:void(0)" id="exportShpLayer" class="btn btn-primary">Desa</button>
+              </div>
+              <div class="col text-left">
+                <a href="{% url 'monitoringsite_detail' actual_monitoringscheme.code monitoring_site_code %}" class="btn btn-danger">Cancel·la</a>
+              </div>
             </div>
-            <div class="col text-left">
-              <a href="/socc/monitoringsites/1/" class="btn btn-danger">Cancel</a>
-            </div>
-          </div>
+  
+          </form>
 
 
     </div><!-- ./content -->
@@ -173,7 +177,7 @@
   <script src="../src/js/protocols/draw_plataformes.js"></script>
   <script src="../src/js/draw_manager.js"></script>
   <script id="monitoringsite-geometry" type="application/json">{"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [[[3.014984, 41.876208], [3.049675, 41.879275], [3.049675, 41.888733], [3.023571, 41.892311], [3.014984, 41.876208]]]}}</script>
-  
+  <script id="monitoringsite-geometry-point" type="application/json">{"type": "Feature", "geometry": {"type": "Point", "coordinates": [2.33175688, 41.85130102]}}</script>
     <script>
 
       /* Leaflet map init with some active layers and centered to Catalonia */
@@ -192,18 +196,20 @@
 
         MonitoringDraw.init('plataformes','site_location');
 
-        MonitoringDraw.bindEvent('update_site_geometry',function(site_location_geojson){
+        MonitoringDraw.bindEvent('update_site_location',function(site_location_geojson){
 
             $('#geojson_output').val(JSON.stringify(site_location_geojson));
 
         });
 
 
+        //nest_precise, nesting_area
+
         const monitoringsite_json = JSON.parse(document.getElementById('monitoringsite-geometry').textContent);
 
         $('#geojson_output').val(JSON.stringify(monitoringsite_json));
 
-        MonitoringDraw.addGeoJSONGeometry(monitoringsite_json,'site_location',
+        MonitoringDraw.addGeoJSONGeometry(monitoringsite_json,'nesting_area',
             function(message_type, message){
 
                 if(message_type=='error'){
@@ -217,7 +223,7 @@
             }
         );
 
-  }
+      }
 
 
 

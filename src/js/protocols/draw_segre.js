@@ -372,7 +372,7 @@
         };
 
 
-      _raptorCensusObject.isValid = function (feature){
+      _raptorCensusObject.isValid = function (feature, _type){
 
           return feature.type=='Feature' && feature.geometry.type=='Polygon' &&
           feature.geometry.coordinates[0].length == 5;
