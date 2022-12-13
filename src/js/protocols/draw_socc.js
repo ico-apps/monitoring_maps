@@ -358,14 +358,30 @@
            feature.type = feature.type || "Feature"; // Intialize feature.type
            var props = feature.properties = feature.properties || {};
 
-           props.section = _transectSOCCObject.getCurrentSection();
-           finished = _transectSOCCObject.addNewSection(layer);
+           //Clear previous transect when starting new transect
+           if(current_section==1){
 
-           if(finished) events['update_transect'](editableLayers.toGeoJSON());
+             _transectSOCCObject.clear();
 
+              editableLayers.eachLayer(function(layer) {
 
-           //console.log(layer);
-           editableLayers.addLayer(layer);
+                editableLayers.removeLayer(layer);
+
+              });
+
+           }
+
+          props.section = _transectSOCCObject.getCurrentSection();
+          finished = _transectSOCCObject.addNewSection(layer);
+
+          editableLayers.addLayer(layer);
+
+          if(finished){
+
+             events['update_transect'](editableLayers.toGeoJSON());
+
+          }
+
            update(editableLayers)
        });
 
@@ -381,7 +397,6 @@
          _transectSOCCObject.drawSectionLimits(editableLayers);
 
          events['update_transect']({});
-
          update(editableLayers)
 
        });
@@ -398,11 +413,14 @@
 
        map.on(L.Draw.Event.DRAWSTART, function (e) {
 
-         events['update_transect']({});
+         events['update_transect']('{}');
 
          new_drawing=_transectSOCCObject.startDrawing();
 
-         if(new_drawing) editableLayers.eachLayer(function(layer) { editableLayers.removeLayer(layer);});
+         if(new_drawing){
+
+            editableLayers.eachLayer(function(layer) { editableLayers.removeLayer(layer);});
+         }
 
          update(editableLayers)
 
