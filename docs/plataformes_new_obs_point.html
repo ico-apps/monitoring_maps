@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="robots" content="NONE,NOARCHIVE" />
 
-  <title>#1 Fulleda – ICO monitoring</title>
+  <title>Plataformes - New obs point</title>
 
   <!-- font awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -82,12 +82,9 @@
 
                         </div>
 
-                        <h1>Plataformes - New visibility</h1>
+                        <h1>Plataformes - New obs point</h1>
 
                       </div>
-
-
-            <form role="form" method="post">
 
 
                 <div class="alert alert-info" role="alert">
@@ -100,13 +97,13 @@
                   <div class="col-5">
                     <div class="form-group">
                       <label for="id_code">Latitude</label>
-                      <input autocomplete="off" class="form-control" type="text" id="id_latitude" value="41.85130102" />
+                      <input autocomplete="off" class="form-control" type="text" id="id_latitude" value="41.85130102" disabled/>
                     </div>
                   </div>
                   <div class="col-5">
                     <div class="form-group">
                       <label for="id_code">Longitude</label>
-                      <input autocomplete="off" class="form-control" type="text" id="id_longitude" value="2.33175688"/>
+                      <input autocomplete="off" class="form-control" type="text" id="id_longitude" value="2.33175688" disabled/>
                     </div>
                   </div>
                   <div class="col-2">
@@ -116,13 +113,6 @@
                 </div>
 
 
-              </form>
-
-
-
-                <div class="form-actions-no-box">
-                  <input class="btn btn-success" type="submit" name="submit" value="Create monitoring site">
-                </div>
 
               </div>
               <div class="col-7">
@@ -182,7 +172,7 @@
         }
       );
 
-      const monitoringsite_json = JSON.parse(document.getElementById('monitoringsite-geometry').textContent);
+      const monitoringsite_json = JSON.parse(document.getElementById('monitoringsite-geometry-point').textContent);
 
 
       initEditMode(monitoringsite_json);
