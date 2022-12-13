@@ -38,10 +38,17 @@
       };
 
       var styles = {
-        'transect': {
-          "color": "#f0982a",
-          "weight": 2,
-          "opacity": 0.8
+        'square': {
+          color: "#0056b3",
+          fillColor: "#0056b3",
+          fillOpacity: 0,
+          radius: 90.0
+        },
+        'visibility':{
+
+        },
+        'obs_point':{
+
         }
       };
 
@@ -58,7 +65,7 @@
 
       _raptorCensusObject.setStyle = function(_type, style){
 
-        return _raptorCensusObject.styles[_type] = style;
+        styles[_type] = style;
 
       };
 
@@ -374,8 +381,8 @@
 
       _raptorCensusObject.isValid = function (feature, _type){
 
-          return feature.type=='Feature' && feature.geometry.type=='Polygon' &&
-          feature.geometry.coordinates[0].length == 5;
+          //TODO: need to check
+          return true;
 
      };
 
@@ -412,12 +419,12 @@
 
       if(_type=='square'){
 
-        var layer=L.geoJson(geometry, {style: style});
+        var layer=L.geoJson(geometry, {style: styles[_type]});
         layer.addTo(map);
-        geometry_manager.setBounds(layer, _type);
+
+        _raptorCensusObject.setBounds(layer, _type);
 
         map.fitBounds(layer.getBounds());
-
 
       }
       else if(_type=='visibility') {
@@ -428,25 +435,27 @@
 
             var new_feature={type: "Feature", geometry: {type: "Polygon", coordinates: feature }};
 
-            var layer=L.geoJson(new_feature, {style: style });
+            var layer=L.geoJson(new_feature, {style: styles[_type] });
             layer.addTo(map);
-            geometry_manager.setBounds(layer, _type);
+            map.fitBounds(layer.getBounds());
+            _raptorCensusObject.setBounds(layer, _type);
 
           });
 
         }
         else{
 
-          var layer=L.geoJson(geometry, {style: style });
+          var layer=L.geoJson(geometry, {style: styles[_type] });
           layer.addTo(map);
-          geometry_manager.setBounds(layer, _type);
+          map.fitBounds(layer.getBounds());
+          _raptorCensusObject.setBounds(layer, _type);
 
         }
 
       }
       else if(_type=='obs_point') {
 
-        var circle = L.circle([geometry['coordinates'][1],geometry['coordinates'][0]], style);
+        var circle = L.circle([geometry['coordinates'][1],geometry['coordinates'][0]], styles[_type]);
         circle.addTo(map);
 
       }

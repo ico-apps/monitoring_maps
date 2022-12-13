@@ -656,9 +656,23 @@
         }
       );
 
-      /* Init drawing lib for the SOCC monitoringscheme. Only allows to draw or upload 6 LineStrings   */
+
+      var visibility_style={
+              color: "#28a745",
+              fillColor: "#28a745",
+              fillOpacity: 0.5
+      };
+
+      var obs_point_style={
+              color: "#f19c20",
+              fillColor: "#f19c20",
+              fillOpacity: 0.8,
+              radius: 100.0
+      };
+
 
       MonitoringDraw.init('rapis','observations');
+
 
       MonitoringDraw.bindEvent('observation_create',function(coords, obs_location, i){
 
@@ -672,9 +686,14 @@
 
       });
 
+      MonitoringDraw.setStyle('visibility',visibility_style);
+      MonitoringDraw.setStyle('obs_point',obs_point_style);
+
+      var location_shape={obs_point:{type:"Point",coordinates:[2.37659,41.739337]},visibility:{type:"MultiPolygon",coordinates:[[[[2.395979,41.750792],[2.379666,41.750728],[2.377691,41.745093],[2.375888,41.743236],[2.374514,41.742531],[2.37314,41.742147],[2.372024,41.741058],[2.369105,41.741507],[2.367474,41.741827],[2.367646,41.728248],[2.387393,41.728376],[2.38456,41.732027],[2.38207,41.733501],[2.380267,41.736575],[2.380009,41.739009],[2.382499,41.741314],[2.388681,41.746246],[2.393832,41.749255],[2.395979,41.750792]]],[[[2.372883,41.750664],[2.370822,41.748999],[2.369277,41.748103],[2.368247,41.746182],[2.367302,41.745861],[2.367388,41.750728],[2.372883,41.750664]]]]}};
 
 
-      var shape={'type': 'Feature', 'geometry': {'type': 'Polygon', 'coordinates': [[[2.39746341, 41.75091347], [2.42753169, 41.75106722], [2.42773164, 41.72855065], [2.39767386, 41.72839703], [2.39746341, 41.75091347]]]}};
+
+      var shape={"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [[[2.36739537, 41.75075186], [2.39746341, 41.75091347], [2.39767386, 41.72839703], [2.36761631, 41.72823554], [2.36739537, 41.75075186]]]}};
 
       MonitoringDraw.addGeoJSONGeometry(shape,'square', true,
         function(message_type, message){
@@ -688,6 +707,9 @@
             }
 
         });
+
+        MonitoringDraw.addGeoJSONGeometry(location_shape['visibility'],'visibility',false,null);
+        MonitoringDraw.addGeoJSONGeometry(location_shape['obs_point'],'obs_point',false,null);
 
 
         createObservationMarkers();
