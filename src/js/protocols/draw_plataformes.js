@@ -65,7 +65,7 @@
 
       _plataformesObject.setStyle = function(_type, style){
 
-        return _plataformesObject.styles[_type] = style;
+        styles[_type] = style;
 
       };
 
