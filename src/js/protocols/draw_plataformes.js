@@ -10,8 +10,8 @@
       var obs_point='';
       var obs_zone=[];
 
-      var nest_precise_location = '';      
-      var nesting_area = ''; 
+      var nest_precise_location = '';
+      var nesting_area = '';
 
       var drawControl='';
 
@@ -66,7 +66,7 @@
       _plataformesObject.setStyle = function(_type, style){
 
         return _plataformesObject.styles[_type] = style;
-  
+
       };
 
       _plataformesObject.getError = function(error_code){
@@ -162,7 +162,8 @@
                   handler:
                   new L.Draw.Marker(map, {icon: L.divIcon({
                       html: 'N',
-                      className: 'plataformes-precise-nest'
+                      className: 'plataformes-precise-nest',
+                      iconAnchor: [12, 12]
                       })
                     }
                   ),
@@ -170,7 +171,7 @@
                   },
                   {
                   enabled: true,
-                  handler: new L.Draw.Polygon(map,  { allowIntersection: false, showArea: true, metric: ['km', 'm'], repeatMode: false, shapeOptions: 
+                  handler: new L.Draw.Polygon(map,  { allowIntersection: false, showArea: true, metric: ['km', 'm'], repeatMode: false, shapeOptions:
                   styles['site_location'] }),
                   title: 'Localització per determinar'
                   }
@@ -233,7 +234,7 @@
 
       _plataformesObject.bindDrawEvents = function (editableLayers, update){
 
-        // Set observer point 
+        // Set observer point
         if(this.mode=='obs_point'){
 
 
@@ -287,7 +288,7 @@
                 info.update();
 
                 events['update_site_location'](editableLayers.toGeoJSON()['features'][0]);
-                
+
 
           });
 
@@ -349,10 +350,19 @@
      };
 
 
-     _plataformesObject.addPoint = function (point, data, mode){
+     _plataformesObject.addPoint = function (point, data, _type){
 
-      var marker = new L.Marker(point);
-      //info.update();
+       if(_type=='obs_point'){
+
+       }
+       else{
+
+         var marker = new L.Marker(point);
+
+
+       }
+
+      info.update();
 
       return marker;
 
@@ -365,9 +375,11 @@
 
         var coordinates = geometry['geometry']['coordinates'];
 
+
         var marker = new L.Marker([coordinates[1],coordinates[0]], {icon: L.divIcon({
           html: 'N',
-          className: 'plataformes-precise-nest'
+          className: 'plataformes-precise-nest',
+          iconAnchor: [12, 12]
           })
         });
 
@@ -418,8 +430,8 @@
 
      _plataformesObject.clearNestLocation = function (){
 
-      nest_precise_location = '';      
-      nesting_area = ''; 
+      nest_precise_location = '';
+      nesting_area = '';
 
 
      };
