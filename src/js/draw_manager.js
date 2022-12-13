@@ -143,13 +143,13 @@
 
     };
 
-    _drawMonitoringSiteObject.addGeoJSONGeometry = function(geometry, _type, result_handler){
+    _drawMonitoringSiteObject.addGeoJSONGeometry = function(geometry, _type, editable, result_handler){
 
       if(geometry_manager.isValid(geometry, _type)){
 
         //editableLayers = new L.FeatureGroup();
         //geometry_manager=SOCCTransect.init();
-        geometry_manager.addGeoJSONGeometry(geometry, _type, editableLayers);
+        geometry_manager.addGeoJSONGeometry(geometry, _type, editable, editableLayers);
 
       }
       else{
@@ -169,7 +169,7 @@
 
     _drawMonitoringSiteObject.addPoint = function (geometry, data, _type){
 
-        layer = geometry_manager.addPoint(geometry, data, _type);
+        layer = geometry_manager.addPoint(geometry, data, _type, editableLayers);
         editableLayers.addLayer(layer);
 
     };

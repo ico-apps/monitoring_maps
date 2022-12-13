@@ -74,15 +74,15 @@
           <form action="#" method="post" onsubmit="return false;">
             <div class="row mt-2">
               <div class="col-6">
-  
-  
-  
+
+
+
                 <div class="card">
                   <div class="card-body">
-  
-  
+
+
                     <h5 class="card-title">Upload monitoring site shape</h5>
-               
+
                     <div class="row">
                       <div class="col-8">
                         <div class="">
@@ -93,31 +93,31 @@
                         <button class="btn btn-dark btn-sm" id="removeShpLayer" style="display:none;">Esborra la capa <i class="fas fa-trash"></i></button>
                       </div>
                     </div>
-                 
-  
+
+
                   </div>
                 </div>
-  
+
               </div>
               <div class="col-6">
-  
-  
+
+
                 <div class="card">
                   <div class="card-body">
-                   
+
                     <h5>Last platform geometry</h5>
                     <textarea class="form-control" id="geojson_output" disabled>
-  
-  
+
+
                     </textarea>
-      
+
                   </div>
                 </div>
-  
-                
+
+
               </div>
             </div>
-  
+
             <div class="row mt-2">
               <div class="col text-right">
                 <button href="javascript:void(0)" id="exportShpLayer" class="btn btn-primary">Desa</button>
@@ -126,7 +126,7 @@
                 <a href="{% url 'monitoringsite_detail' actual_monitoringscheme.code monitoring_site_code %}" class="btn btn-danger">Cancel·la</a>
               </div>
             </div>
-  
+
           </form>
 
     </div><!-- ./content -->
@@ -267,7 +267,7 @@
 
   $('#geojson_output').val(JSON.stringify(shape));
 
-    MonitoringDraw.addGeoJSONGeometry(shape,'transect',
+    MonitoringDraw.addGeoJSONGeometry(shape,'transect',true,
       function(message_type, message){
 
           if(message_type=='error'){

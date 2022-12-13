@@ -182,7 +182,7 @@
         }
       );
 
-      const monitoringsite_json = JSON.parse(document.getElementById('monitoringsite-geometry-point').textContent);
+      const monitoringsite_json = JSON.parse(document.getElementById('monitoringsite-geometry').textContent);
 
 
       initEditMode(monitoringsite_json);
@@ -196,7 +196,7 @@
 
         var nest_type = monitoringsite_json['geometry']['type'] == 'Polygon' ? 'nesting_area' : 'nest_precise';
 
-        MonitoringDraw.addGeoJSONGeometry(monitoringsite_json,nest_type,
+        MonitoringDraw.addGeoJSONGeometry(monitoringsite_json,nest_type, false,
           function(message_type, message){
 
               if(message_type=='error'){

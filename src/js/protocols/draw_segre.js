@@ -59,7 +59,7 @@
       _raptorCensusObject.setStyle = function(_type, style){
 
         return _raptorCensusObject.styles[_type] = style;
-  
+
       };
 
       _raptorCensusObject.getError = function(error_code){
@@ -408,7 +408,7 @@
      };
 
 
-     _raptorCensusObject.addGeoJSONGeometry = function (geometry, _type, editableLayers){
+     _raptorCensusObject.addGeoJSONGeometry = function (geometry, _type, editable, editableLayers){
 
       if(_type=='square'){
 

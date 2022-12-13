@@ -243,7 +243,7 @@
               var type = e.layerType,
                   layer = e.layer;
 
-              _plataformesObject.setPreciseNest(layer);
+                editableLayers.eachLayer(function(layer) { editableLayers.removeLayer(layer);});
 
                 events['obs_point_create'](layer._latlng);
 
@@ -350,9 +350,19 @@
      };
 
 
-     _plataformesObject.addPoint = function (point, data, _type){
+     _plataformesObject.addPoint = function (point, data, _type, editableLayers){
 
        if(_type=='obs_point'){
+
+         var marker = new L.Marker(point, {icon: L.divIcon({
+           html: '<i class="fa fa-eye fa-2x" style="color: black"></i>',
+           iconSize: [30, 30],
+           className: 'obs_point'
+           })
+         });
+
+         marker.addTo(map);
+         editableLayers.addLayer(marker);
 
        }
        else{
@@ -369,7 +379,7 @@
      };
 
 
-    _plataformesObject.addGeoJSONGeometry = function (geometry, _type, editableLayers){
+    _plataformesObject.addGeoJSONGeometry = function (geometry, _type, editable, editableLayers){
 
       if(_type=='nest_precise'){
 
@@ -385,7 +395,7 @@
 
         marker.addTo(map);
         map.setView([coordinates[1],coordinates[0]], 18);
-        editableLayers.addLayer(marker);
+        if(editable) editableLayers.addLayer(marker);
 
 
       }
@@ -395,7 +405,7 @@
         layer.addTo(map);
         map.fitBounds(layer.getBounds());
 
-        editableLayers.addLayer(layer);
+        if(editable) editableLayers.addLayer(layer);
 
 
       }

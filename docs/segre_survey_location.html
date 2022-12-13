@@ -173,7 +173,7 @@
 
       var shape={'type': 'Feature', 'geometry': {'type': 'Polygon', 'coordinates': [[[2.39746341, 41.75091347], [2.42753169, 41.75106722], [2.42773164, 41.72855065], [2.39767386, 41.72839703], [2.39746341, 41.75091347]]]}};
 
-      MonitoringDraw.addGeoJSONGeometry(shape,'survey_location',
+      MonitoringDraw.addGeoJSONGeometry(shape,'survey_location',true,
         function(message_type, message){
 
             if(message_type=='error'){

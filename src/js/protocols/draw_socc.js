@@ -54,7 +54,7 @@
       _transectSOCCObject.setStyle = function(_type, style){
 
         return _transectSOCCObject.styles[_type] = style;
-  
+
       };
 
       _transectSOCCObject.setDrawControl = function(draw_cont){
@@ -131,14 +131,14 @@
       };
 
 
-      _transectSOCCObject.addGeoJSONGeometry = function (geometry, _type, editableLayers){
+      _transectSOCCObject.addGeoJSONGeometry = function (geometry, _type, editable, editableLayers){
 
         /*if(_type=='site_location'){
-  
+
           var layer=L.geoJson(geometry, {style: style });
           layer.addTo(map);
           map.fitBounds(layer.getBounds());
-  
+
         }*/
 
         for (i = 1; i < 7; i++) {
@@ -171,9 +171,9 @@
         _transectSOCCObject.drawSectionLimits(editableLayers);
 
 
-  
+
       }
-  
+
 
       _transectSOCCObject.clearDrawing = function(){
 
@@ -187,9 +187,9 @@
       _transectSOCCObject.clear = function (){
 
         _transectSOCCObject.clearSectionLimits();
- 
+
       };
- 
+
 
       _transectSOCCObject.startDrawing = function(){
 
