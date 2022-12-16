@@ -172,7 +172,7 @@
       );
 
       /* Init drawing lib for the SOCC monitoringscheme. Only allows to draw or upload 6 LineStrings   */
-      MonitoringDraw.init('socc');
+      MonitoringDraw.initDraw('socc');
 
       MonitoringDraw.bindEvent('update_transect',function(site_location_geojson){
 
@@ -206,7 +206,7 @@
             $('#removeShpLayer').on("click", function(){
 
               /* Clear previous uploaded or drawn objects  */
-              MonitoringDraw.clearLayer();
+              MonitoringDraw.clearDrawLayer();
               $('#fileinput').val('');
 
             });
@@ -214,12 +214,12 @@
 
             $('#exportShpLayer').on("click", function(){
 
-              if(MonitoringDraw.isFinished()){
+              if(MonitoringDraw.isDrawFinished()){
                 /* Export GeoJson. Stringfied can be sent to the PostGIS database. You can iterate over features and store every single LineString */
                 $("#alert").text('');
                 $("#alert").addClass('invisible');
                 var d= {'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                    'shapes': JSON.stringify(MonitoringDraw.toGeoJSON())
+                    'shapes': JSON.stringify(MonitoringDraw.drawToGeoJSON())
                    };
                 var url = "."
                 $.post(url, d, function(response){
@@ -245,7 +245,6 @@
                   $("#alert").text(error_message);
                   $("#alert").removeClass('invisible');
                 });
-                //console.log(MonitoringDraw.toGeoJSON());
               }
               else {
                 var txt = ('Shape not loaded or not read');
@@ -267,7 +266,11 @@
 
   $('#geojson_output').val(JSON.stringify(shape));
 
+<<<<<<< HEAD
     MonitoringDraw.addGeoJSONGeometry(shape,'transect',true,
+=======
+    MonitoringDraw.addGeoJSONDrawGeometry(shape,'transect',
+>>>>>>> 95f7867c7dd854214ad6bc53baf0778ad779e13f
       function(message_type, message){
 
           if(message_type=='error'){

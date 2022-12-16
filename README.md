@@ -11,12 +11,12 @@
 
 ## draw_manager.js
 
-**MonitoringDraw** object extends leaflet.draw library to implement monitoring project draw actions.
+**MonitoringDraw.** object extends leaflet.draw library to implement monitoring project draw actions.
 
 | Method                               | Returns | Description                                |
 |:-------------------------------------|:--------|:-------------------------------------------|
-| init(protocol,mode)                  | -       | Enable MonitoringDraw for project and mode |
-| destroy()                            | -       | Destroy MonitoringDraw instance.           |
+| init(protocol,mode)                  | -       | Enable MonitoringDraw. for project and mode |
+| destroy()                            | -       | Destroy MonitoringDraw. instance.           |
 | bindEvent(event_name,event_function) | -       | Bind event_name to event_function          |
 
 
