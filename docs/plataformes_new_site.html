@@ -194,7 +194,7 @@
     
       function initDraw(){
 
-        MonitoringDraw.init('plataformes','site_location');
+        MonitoringDraw.initDraw('plataformes','site_location');
 
         MonitoringDraw.bindEvent('update_site_location',function(site_location_geojson){
 
@@ -209,7 +209,7 @@
 
         $('#geojson_output').val(JSON.stringify(monitoringsite_json));
 
-        MonitoringDraw.addGeoJSONGeometry(monitoringsite_json,'nesting_area',
+        MonitoringDraw.addGeoJSONDrawGeometry(monitoringsite_json,'nesting_area',
             function(message_type, message){
 
                 if(message_type=='error'){

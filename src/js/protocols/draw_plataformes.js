@@ -8,8 +8,6 @@
       var _plataformesObject={};
 
       var obs_point='';
-      var obs_zone=[];
-
       var nest_precise_location = '';      
       var nesting_area = ''; 
 
@@ -52,6 +50,7 @@
         },
       };
 
+
       _plataformesObject.init = function(mode){
 
         if(!available_modes[mode]) alert('Wrong init mode');
@@ -62,6 +61,18 @@
 
 
       };
+
+      _plataformesObject.initDraw = function(mode){
+
+        if(!available_modes[mode]) alert('Wrong init mode');
+
+        this.mode=mode;
+
+        return _plataformesObject;
+
+
+      };
+
 
       _plataformesObject.setStyle = function(_type, style){
 
@@ -82,20 +93,6 @@
         events[event_name]=event_function;
 
       }
-
-
-      _plataformesObject.activate = function(bounds){
-
-        $('.leaflet-draw-draw-marker').show();
-
-      }
-
-      _plataformesObject.deactivate = function(bounds){
-
-        $('.leaflet-draw-draw-marker').hide();
-
-      }
-
 
 
     _plataformesObject.getDrawConfig = function(){
@@ -185,12 +182,6 @@
     };
 
 
-      _plataformesObject.setObsZone = function (layer){
-
-          obs_zone.push(layer);
-
-      };
-
       _plataformesObject.setPreciseNest = function (layer){
 
         if(nest_precise_location) map.removeLayer(nest_precise_location);
@@ -215,21 +206,6 @@
 
       };
 
-      _plataformesObject.removeObsZone = function (layer){
-
-      /* Cutre approach because we don't remove the correct layer.
-          But we don't need the exacte layer */
-          obs_zone.pop();
-
-      };
-
-
-    _plataformesObject.isMarkerInsidePolygon= function (marker, poly) {
-
-        var poly_ob = turf.polygon([poly.toGeoJSON()['features'][0]['geometry']['coordinates'][0]]);
-        return turf.booleanPointInPolygon(marker.toGeoJSON(), poly_ob);
-
-      };
 
       _plataformesObject.bindDrawEvents = function (editableLayers, update){
 
@@ -342,7 +318,7 @@
 
      };
 
-     _plataformesObject.isFinished = function (){
+     _plataformesObject.isDrawFinished = function (){
 
       return nest_precise_location || nesting_area;
 
@@ -359,7 +335,40 @@
      };
 
 
-    _plataformesObject.addGeoJSONGeometry = function (geometry, _type, editableLayers){
+     _plataformesObject.addLayerPoint = function(coords, _type, data, style, show_click){
+
+      if(_type=='nest_precise'){
+
+        var point = new L.Marker(coords, {icon: L.divIcon({
+          html: 'N',
+          className: 'plataformes-precise-nest'
+          })
+        });
+
+      }
+      else if(_type =='observations_map'){
+
+        var point = L.circle(coords, style);
+        point.options['id']='obs_'+data['id'];
+
+      }
+      else if(_type =='obs_point'){
+
+        var point = new L.Marker(point, {icon: L.divIcon({
+          html: '<i class="fa fa-eye fa-2x" style="color: black"></i>',
+          iconSize: [30, 30],
+          className: 'obs_point'
+          })
+        });
+
+      }
+
+      return point;
+
+    };
+
+
+    _plataformesObject.addGeoJSONDrawGeometry = function (geometry, _type, editableLayers){
 
       if(_type=='nest_precise'){
 

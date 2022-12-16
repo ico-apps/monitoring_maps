@@ -47,6 +47,15 @@
 
       var events={};
 
+      _raptorCensusObject.initDraw = function(mode){
+
+        this.mode=mode;
+
+        return _raptorCensusObject;
+
+
+      };
+
       _raptorCensusObject.init = function(mode){
 
         this.mode=mode;
@@ -55,6 +64,7 @@
 
 
       };
+
 
       _raptorCensusObject.setStyle = function(_type, style){
 
@@ -83,109 +93,95 @@
 
       }
 
-      _raptorCensusObject.activate = function(bounds){
-
-        $('.leaflet-draw-draw-marker').show();
-
-      }
-
-      _raptorCensusObject.deactivate = function(bounds){
-
-        $('.leaflet-draw-draw-marker').hide();
-
-      }
+      _raptorCensusObject.getDrawConfig = function(){
 
 
+        if(this.mode=='observations'){
 
-        _raptorCensusObject.getDrawConfig = function(){
+          return {
+              marker: true
+          };
 
+        }
+        else{
 
-          if(this.mode=='observations'){
+          return {
+              polyline: false,
+              polygon: true,
+              circle: false,
+              rectangle: false,
+              marker: true,
+              circlemarker: false,
+          };
 
-            return {
-                marker: true
-            };
-
-          }
-          else{
-
-            return {
-                polyline: false,
-                polygon: true,
-                circle: false,
-                rectangle: false,
-                marker: true,
-                circlemarker: false,
-            };
-
-          }
+        }
 
 
 
 
-        };
+      };
 
 
-        _raptorCensusObject.setDrawPreHooks = function(){
+      _raptorCensusObject.setDrawPreHooks = function(){
 
 
-          if(this.mode=='observations'){
+        if(this.mode=='observations'){
 
-            L.DrawToolbar.include({
-               getModeHandlers: function(map) {
-                 return [
-                   {
-                     enabled: true,
-                     handler: new L.Draw.Marker(map, {icon: L.divIcon({
-                         className: 'rapis-custom-icon-3',
-                         html: "",
-                         iconAnchor: [15, 15]
-                     })}),
-                     title: 'Afegeix observació'
-                   }
-                 ];
-               }
-             });
-
-
-          }
-          else{
-
-            L.DrawToolbar.include({
-               getModeHandlers: function(map) {
-                 return [
-                   {
-                     enabled: true,
-                     handler:
-                      new L.Draw.Marker(map, {icon: L.divIcon({
-                        html: '<i class="fa fa-eye fa-2x" style="color: black"></i>',
-                        iconSize: [30, 30],
-                        className: 'obs_point'
-                      })
-                        }
-                      ),
-                    title: 'Punt d\'observació'
-                   },
-                   {
-                     enabled: true,
-                     handler: new L.Draw.Polygon(map,  { allowIntersection: false, showArea: true, metric: ['km', 'm'], repeatMode: false, shapeOptions: {
-                         "color": "#FF3636",
-                         "weight": 3,
-                         "fillOpacity": 0.45,
-                     } }),
-                     title: 'Zona d\'Observació'
-                   }
-                 ];
-               }
-             });
+          L.DrawToolbar.include({
+              getModeHandlers: function(map) {
+                return [
+                  {
+                    enabled: true,
+                    handler: new L.Draw.Marker(map, {icon: L.divIcon({
+                        className: 'rapis-custom-icon-3',
+                        html: "",
+                        iconAnchor: [15, 15]
+                    })}),
+                    title: 'Afegeix observació'
+                  }
+                ];
+              }
+            });
 
 
+        }
+        else{
+
+          L.DrawToolbar.include({
+              getModeHandlers: function(map) {
+                return [
+                  {
+                    enabled: true,
+                    handler:
+                    new L.Draw.Marker(map, {icon: L.divIcon({
+                      html: '<i class="fa fa-eye fa-2x" style="color: black"></i>',
+                      iconSize: [30, 30],
+                      className: 'obs_point'
+                    })
+                      }
+                    ),
+                  title: 'Punt d\'observació'
+                  },
+                  {
+                    enabled: true,
+                    handler: new L.Draw.Polygon(map,  { allowIntersection: false, showArea: true, metric: ['km', 'm'], repeatMode: false, shapeOptions: {
+                        "color": "#FF3636",
+                        "weight": 3,
+                        "fillOpacity": 0.45,
+                    } }),
+                    title: 'Zona d\'Observació'
+                  }
+                ];
+              }
+            });
 
 
-          }
 
 
-        };
+        }
+
+
+      };
 
 
         _raptorCensusObject.setObsPoint = function (layer){
@@ -379,7 +375,7 @@
 
      };
 
-     _raptorCensusObject.isFinished = function (){
+     _raptorCensusObject.isDrawFinished = function (){
 
        return obs_point && obs_zone.length > 0;
 
@@ -408,7 +404,54 @@
      };
 
 
-     _raptorCensusObject.addGeoJSONGeometry = function (geometry, _type, editableLayers){
+
+    _raptorCensusObject.addGeoJSONLayerGeometry = function (geometry, _type, data, layer_style, show_click){
+
+      if(_type=='square'){
+
+        var layer=L.geoJson(geometry, {style: layer_style });
+        layer.options['id']=data['id'];
+
+      }
+
+      return layer;
+
+    };
+
+
+    _raptorCensusObject.addLayerPoint = function(coords, _type, data, style, show_click){
+
+      if(_type=='obs_point'){
+
+        var point = L.circle(coords, style);
+        point.options['id']='obs_'+data['id'];
+
+
+      }
+      else if(_type =='observation'){
+
+        var obs_icon= L.divIcon(
+          { className: 'rapis-custom-icon-'+data['obs_location'],
+            html: data['order']
+          });
+
+
+        var point =  L.marker(coords, {icon: obs_icon});
+
+      }
+      else if(_type =='observations_map'){
+
+        var point = L.circle(coords, style);
+        point.options['id']='obs_'+data['id'];
+
+      }
+
+      return point;
+
+    };
+
+
+     _raptorCensusObject.addGeoJSONDrawGeometry = function (geometry, _type, editableLayers){
 
       if(_type=='square'){
 
