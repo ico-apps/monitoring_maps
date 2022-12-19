@@ -370,6 +370,7 @@
       }
       else if(_type =='nest_precise_state'){
 
+        //Used in monitoring site map
         var point = L.circle(coords, style);
 
       }
