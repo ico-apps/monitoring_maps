@@ -50,7 +50,7 @@
         geometry_manager=SOCCTransect.init();
 
       }
-      else if(project=='rapis'){
+      else if(project=='segre'){
 
         geometry_manager=RaptorSurvey.init(mode);
 
@@ -327,7 +327,7 @@
             geometry_manager=SOCCTransect.init();
 
           }
-          else if(project=='rapis'){
+          else if(project=='segre'){
 
             geometry_manager=RaptorSurvey.init(mode);
 
@@ -420,7 +420,7 @@
 
       var features=editableLayers.toGeoJSON().features;
 
-      if (this.project=='rapis') {
+      if (this.project=='segre') {
 
         if(mode=='visibility'){
 

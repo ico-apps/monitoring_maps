@@ -418,6 +418,11 @@
         layer.options['id']=data['id'];
 
       }
+      else if(_type=='visibility'){
+
+        var layer=L.geoJson(geometry, {style: layer_style});
+
+      }
 
       return layer;
 
