@@ -5,7 +5,7 @@
 
   const metersToPixelsAtMaxZoom = (meters, zoom) => meters / (78271.484 / (2 ** zoom)) / Math.cos(41.118660 * Math.PI / 180);
 
-  function MonitoringDraw.(){
+  function monitoringDraw(){
 
     /* Default configs */
 
@@ -695,8 +695,8 @@
   }
 
   // We need that our library is globally accesible, then we save in the window
-  if(typeof(window.MonitoringDraw.) === 'undefined'){
-    window.MonitoringDraw = MonitoringDraw();
+  if(typeof(window.MonitoringDraw) === 'undefined'){
+    window.MonitoringDraw = monitoringDraw();
   }
 
 

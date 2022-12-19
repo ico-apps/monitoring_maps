@@ -182,7 +182,8 @@
 
         var nest_type = monitoringsite_json['geometry']['type'] == 'Polygon' ? 'nesting_area' : 'nest_precise';
 
-        MonitoringDraw.addGeoJSONGeometry(monitoringsite_json,nest_type, false,
+
+        MonitoringDraw.addGeoJSONDrawGeometry(monitoringsite_json,nest_type, false,
           function(message_type, message){
 
               if(message_type=='error'){
