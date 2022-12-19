@@ -115,9 +115,9 @@
 
 
   <script src="../src/js/map.js"></script>
-  <script src="../src/js/map_layers.js"></script>
-
   <script src="data/segre_monitoring_sites.js"></script>
+  <script src="../src/js/protocols/draw_segre.js"></script>
+  <script src="../src/js/draw_manager.js"></script>
 
 
     <script>
@@ -133,6 +133,7 @@
 
       /* Init drawing lib for the SOCC monitoringscheme. Only allows to draw or upload 6 LineStrings   */
 
+      MonitoringDraw.init('rapis');
 
       showSitesDistribution('rapis');
 
@@ -142,14 +143,14 @@
             var active_layer='Itineraris actius';
             var not_active_layer='Itineraris inactius';
 
-            LayerManager.create(active_layer,{
+            MonitoringDraw.createLayer(active_layer,{
                     color: "#28a745",
                     fillColor: "#28a745",
                     fillOpacity: 0.5,
                     radius: 90.0
                 });
 
-            LayerManager.create(not_active_layer,{
+            MonitoringDraw.createLayer(not_active_layer,{
                     color: "#dc3545",
                     fillColor: "#dc3545",
                     fillOpacity: 0.5,
@@ -157,7 +158,7 @@
                 });
 
 
-                LayerManager.setPointClickContent(function (data) {
+                MonitoringDraw.setPointClickContent(function (data) {
 
                   var section_text='';
                   var show_site='';
@@ -186,17 +187,17 @@
                    else not_active++;
 
                    var layer = field['has_active_collaborator'] ? active_layer : not_active_layer;
-                   LayerManager.addSquare(layer,field.transect,field);
+                   MonitoringDraw.addGeoJSONLayerGeometry(layer,field.transect,'square',field, true, false);
 
 
                  });
 
-                 LayerManager.addLegendItem(active_layer,'#28a745','fa-square', active);
-                 LayerManager.addLegendItem(not_active_layer,'#dc3545','fa-square', not_active);
+                 MonitoringDraw.addLegendItem(active_layer,'#28a745','fa-square', active);
+                 MonitoringDraw.addLegendItem(not_active_layer,'#dc3545','fa-square', not_active);
 
-                 LayerManager.showControls();
-                 LayerManager.updateLegend();
-                 //LayerManager.fitContent(active_layer);
+                 MonitoringDraw.showMapControls();
+                 MonitoringDraw.updateLegend();
+                 //MonitoringDraw.fitLayerContent(active_layer);
 
 
 

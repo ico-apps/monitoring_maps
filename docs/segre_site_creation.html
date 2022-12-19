@@ -145,11 +145,11 @@
     integrity="sha256-siofc4Uwjlra3YWkwthOn8Uj69cNN4aMug/iOHNiRgs=" crossorigin="anonymous"></script>
 
   <script src="../src/js/map.js"></script>
-  <script src="../src/js/map_layers.js"></script>
 
   <script src="data/segre_grid2km_json.js"></script>
   <script src="data/segre_monitoring_sites.js"></script>
-
+  <script src="../src/js/protocols/draw_segre.js"></script>
+  <script src="../src/js/draw_manager.js"></script>
 
     <script>
 
@@ -162,9 +162,11 @@
         }
       );
 
+      MonitoringDraw.init('rapis');
+
       var last_selected='';
 
-              var unique_monitoring_sites={};
+      var unique_monitoring_sites={};
 
        $.each(monitoringsite_list, function(i, field){
 
@@ -180,14 +182,14 @@
             var active_layer='Quadrats assignats';
             var not_active_layer='Quadrats sense assignar';
 
-            LayerManager.create(active_layer,{
+            MonitoringDraw.createLayer(active_layer,{
                     color: "#28a745",
                     fillColor: "#28a745",
                     fillOpacity: 1,
                     radius: 50.0
                 });
 
-            LayerManager.create(not_active_layer,{
+            MonitoringDraw.createLayer(not_active_layer,{
                     color: "#ffc107",
                     fillColor: "#ffc107",
                     fillOpacity: 0.1,
@@ -195,7 +197,7 @@
                 });
 
 
-                LayerManager.setPointClickContent(function (data) {
+                MonitoringDraw.setPointClickContent(function (data) {
 
                   var site_text='';
 
@@ -203,9 +205,8 @@
                   else{
 
                     $('#id_code').val(data['name']);
-                    if(last_selected!='') LayerManager.changeFeatureStyle(not_active_layer, last_selected,{ fillOpacity: 0.1 });
-                    alert(data['name']);
-                    LayerManager.changeFeatureStyle(not_active_layer, data['name'],{ fillOpacity: 1 });
+                    if(last_selected!='') MonitoringDraw.changeFeatureStyle(not_active_layer, last_selected,{ fillOpacity: 0.1 });
+                    MonitoringDraw.changeFeatureStyle(not_active_layer, data['name'],{ fillOpacity: 1 });
 
                     last_selected=data['name'];
 
@@ -237,17 +238,17 @@
                       if(assigned) geojson_grid['features'][i]['properties']['site_name'] = unique_monitoring_sites[geojson_grid['features'][i]['properties']['name']];
 
                       var layer = assigned ? active_layer : not_active_layer;
-                      LayerManager.addSquare(layer,geojson_grid['features'][i],geojson_grid['features'][i]['properties']);
+                      MonitoringDraw.addGeoJSONLayerGeometry(layer,geojson_grid['features'][i],'square',geojson_grid['features'][i]['properties'],true, false);
 
                   }
 
 
 
-                 LayerManager.addLegendItem(active_layer,'#28a745','fa-square', active);
-                 LayerManager.addLegendItem(not_active_layer,'#ffc107','fa-square', not_active);
+                 MonitoringDraw.addLegendItem(active_layer,'#28a745','fa-square', active);
+                 MonitoringDraw.addLegendItem(not_active_layer,'#ffc107','fa-square', not_active);
 
-                 LayerManager.showControls();
-                 LayerManager.updateLegend();
+                 MonitoringDraw.showMapControls();
+                 MonitoringDraw.updateLegend();
 
       }
 

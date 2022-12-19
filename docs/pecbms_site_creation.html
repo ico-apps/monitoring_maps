@@ -162,7 +162,7 @@
 
       var main_layer='New site';
 
-      LayerManager.create(main_layer,{
+      MonitoringDraw.createLayer(main_layer,{
         icon: new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -179,8 +179,8 @@
 
         if(map.getZoom() > zoom_limit){
 
-          if(LayerManager.getLayerMarkersCount(main_layer)>0)  LayerManager.updateMarkerLocation(1, e.latlng, main_layer);
-          else LayerManager.createDraggableMarker(main_layer, e.latlng, {'id':1}, dragEvent);
+          if(MonitoringDraw.getLayerMarkersCount(main_layer)>0)  MonitoringDraw.updateMarkerLocation(1, e.latlng, main_layer);
+          else MonitoringDraw.createDraggableMarker(main_layer, e.latlng, {'id':1}, dragEvent);
 
           $('#location_y').val(e.latlng.lat);
           $('#location_x').val(e.latlng.lng);
@@ -209,7 +209,7 @@
         }
         else{
 
-          LayerManager.updateMarkerLocation(1, [$('#location_y').val(),$('#location_x').val()], main_layer);
+          MonitoringDraw.updateMarkerLocation(1, [$('#location_y').val(),$('#location_x').val()], main_layer);
         }
 
 
@@ -219,8 +219,8 @@
 
        var position = [parseFloat($("#location_y").val()), parseFloat($("#location_x").val())];
 
-       if(LayerManager.getLayerMarkersCount(main_layer)>0)  LayerManager.updateMarkerLocation(1, position, main_layer);
-       else LayerManager.createDraggableMarker(main_layer, position, {'id':1}, dragEvent);
+       if(MonitoringDraw.getLayerMarkersCount(main_layer)>0)  MonitoringDraw.updateMarkerLocation(1, position, main_layer);
+       else MonitoringDraw.createDraggableMarker(main_layer, position, {'id':1}, dragEvent);
        map.setZoom(14);
        map.panTo(position);
      });

@@ -146,7 +146,7 @@
 
 
         loaded_obj_shp = {};
-        MonitoringDraw.clearLayer();
+        MonitoringDraw.clearDrawLayer();
 
         if(MonitoringDraw.isValidGeometry(data,'transect')){
 
@@ -183,14 +183,14 @@
                   }
               });
 
-              MonitoringDraw.addFeature(loaded_layer.getLayers()[0]);
+              MonitoringDraw.addDrawFeature(loaded_layer.getLayers()[0],'transect');
 
             }
 
           }
 
 
-        MonitoringDraw.fitUploadedShapeBounds();
+        MonitoringDraw.fitUploadedShapeDrawBounds();
         remove_layer_id.show();
 
       }
