@@ -33,7 +33,9 @@
 
       var available_modes = {
         'obs_point' : 'Survey observation point creation',
-        'site_location' : 'Monitoring site location creation or modication'
+        'site_location' : 'Monitoring site location creation or modication',
+        'observations_map' : 'Plataformes observations distribution map',
+        'sites_distribution' : 'Plataformes sites distribution map'
       };
 
       var styles = {
@@ -53,7 +55,8 @@
 
       _plataformesObject.init = function(mode){
 
-        if(!available_modes[mode]) alert('Wrong init mode');
+        //TODO: decide if necessary
+        //if(!available_modes[mode]) alert('Wrong init mode');
 
         this.mode=mode;
 
@@ -383,6 +386,32 @@
       }
 
       return point;
+
+    };
+
+
+    _plataformesObject.addGeoJSONLayerGeometry = function (geometry, _type, data, layer_style, show_click){
+
+      if(_type=='nest_precise'){
+        
+        var coordinates = geometry['geometry']['coordinates'];
+
+        var layer = new L.Marker([coordinates[1],coordinates[0]], {icon: L.divIcon({
+          html: 'N',
+          className: 'plataformes-precise-nest',
+          iconAnchor: [12, 12]
+          })
+        });
+
+
+      }
+      else if(_type=='nesting_area'){
+
+        var layer=L.geoJson(geometry, {style: layer_style});
+
+      }
+
+      return layer;
 
     };
 
