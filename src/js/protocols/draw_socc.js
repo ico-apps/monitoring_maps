@@ -136,8 +136,8 @@
         }
 
       };
-
-      _transectSOCCObject.addGeoJSONGeometry = function (geometry, _type, editable, editableLayers){
+      
+      _transectSOCCObject.addGeoJSONDrawGeometry = function (geometry, _type, editable, editableLayers){
 
         /*if(_type=='site_location'){
 
@@ -307,7 +307,7 @@
 
       _transectSOCCObject.drawSectionLimits = function(editableLayers){
 
-        map.removeLayer(sectionMarkers);
+        if(sectionMarkers!="") map.removeLayer(sectionMarkers);
         sectionMarkers = new L.FeatureGroup();
 
         $.each(editableLayers._layers, function( index, layer ) {
