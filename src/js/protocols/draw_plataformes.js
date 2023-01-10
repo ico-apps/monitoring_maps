@@ -382,7 +382,7 @@
       }
       else if(_type =='obs_point'){
 
-        var point = new L.Marker(point, {icon: L.divIcon({
+        var point = new L.Marker(coords, {icon: L.divIcon({
           html: '<i class="fa fa-eye fa-2x" style="color: black"></i>',
           iconSize: [30, 30],
           className: 'obs_point'
