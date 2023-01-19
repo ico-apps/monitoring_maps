@@ -136,7 +136,7 @@
         }
 
       };
-      
+
       _transectSOCCObject.addGeoJSONDrawGeometry = function (geometry, _type, editable, editableLayers){
 
         /*if(_type=='site_location'){
@@ -225,15 +225,15 @@
             transect.addLayer(layer);
 
 
-          }          
+          }
 
-  
+
         }
-  
+
         return transect;
-  
+
       };
-  
+
 
       _transectSOCCObject.addLayerPoint = function(coords, _type, data, style, show_click){
 
@@ -298,7 +298,12 @@
 
       _transectSOCCObject.clearSectionLimits = function (){
 
-        map.removeLayer(sectionMarkers);
+        if(sectionMarkers){
+
+          map.removeLayer(sectionMarkers);
+
+        }
+
         sectionMarkers = new L.FeatureGroup();
         map.addLayer(sectionMarkers);
 
@@ -431,7 +436,7 @@
            //Clear previous transect when starting new transect
            if(current_section==1){
 
-             _transectSOCCObject.clear();
+              _transectSOCCObject.clear();
 
               editableLayers.eachLayer(function(layer) {
 
