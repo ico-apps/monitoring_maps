@@ -76,7 +76,18 @@
       //TODO: implement result_handler with validate geometry
       if(geometry_manager.isValid(geometry, _type) || true == true){
 
-        layer = geometry_manager.addGeoJSONLayerGeometry(geometry, _type, data, styles[layer_id], show_click);
+        // Default fallback
+        if(_type==''){
+
+          layer = L.geoJson(geometry, {style: styles[layer_id]});
+
+        }
+        else{
+
+          layer = geometry_manager.addGeoJSONLayerGeometry(geometry, _type, data, styles[layer_id], show_click);
+
+        }
+
         layers[layer_id].addLayer(layer);
 
         if(show_click){
