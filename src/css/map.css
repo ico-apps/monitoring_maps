@@ -50,6 +50,14 @@
 
 }
 
+.legend.leaflet-control.selector div {
+  cursor: pointer;
+}
+
+.legend.leaflet-control.selector div.inactive {
+  opacity: 0.5;
+}
+
 .leaflet-control-layers {
   display: block;
 }

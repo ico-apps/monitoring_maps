@@ -126,7 +126,7 @@
 
         });
 
-      }  
+      }
 
       layers[layer_id].addLayer(point);
 
@@ -200,7 +200,7 @@
 
       map.fitBounds(layers[layer_id].getBounds());
 
-    };    
+    };
 
     /* Set layer on click event */
     _drawMonitoringSiteObject.setPointClickContent = function(click_content){
@@ -230,7 +230,7 @@
       });
 
 
-    };    
+    };
 
     /* Add feature to layer */
     _drawMonitoringSiteObject.addLayerFeature = function(layer_id, feature){
@@ -516,7 +516,7 @@
        });
 
     };
-   
+
 
     _drawMonitoringSiteObject.updateMarkerLocation = function(id, position, layer_id){
 
@@ -532,7 +532,7 @@
 
       });
 
-    };   
+    };
 
     _drawMonitoringSiteObject.createDraggableMarker = function(layer_id, coords, data, drag_event){
 
@@ -579,7 +579,41 @@
 
     };
 
-  
+    _drawMonitoringSiteObject.createLayerSelectorLegend = function (){
+
+      legend = L.control({position: 'bottomright'});
+      legend.onAdd = function (map) {
+
+         var div = L.DomUtil.create('div', 'info legend selector');
+
+          // loop through our density intervals and generate a label with a colored square for each interval
+          for (var i = 0; i < legend_values.length; i++) {
+
+              var legend_item = L.DomUtil.create('div');
+              legend_item.setAttribute('id', legend_values[i]['text']);
+              legend_item.innerHTML = ('<i style="color:'+legend_values[i]['color']+';" class="fas '+legend_values[i]['shape']+'"></i> ') +legend_values[i]['text'] + ' ['+legend_values[i]['count']+']';
+
+              $(legend_item).on('click', function() {
+
+                if ($(this).hasClass('inactive')) _drawMonitoringSiteObject.showLayer($(this).attr('id'));
+                else _drawMonitoringSiteObject.hideLayer($(this).attr('id'));
+
+                $(this).toggleClass('inactive');
+
+              });
+
+              div.appendChild(legend_item);
+
+          }
+
+        return div;
+       };
+      //
+      legend.addTo(map);
+
+
+
+    };
 
     /* Adds new legend item */
     _drawMonitoringSiteObject.addLegendItem = function (text, value, shape, count){
@@ -646,7 +680,7 @@
 
     };
 
-    // Add layer to editable 
+    // Add layer to editable
     _drawMonitoringSiteObject.addDrawFeature = function (layer, _type){
 
       editableLayers.addLayer(layer);

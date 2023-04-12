@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="NONE,NOARCHIVE" />
+
+  <title>SOCC - Sites map</title>
+
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+
+  <!-- leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css"
+    integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"
+    integrity="sha256-XzD3RpaHPv7lzX9qt+2n1j5cWj48O24KsgaGYpKN8x8=" crossorigin="anonymous" />
+
+  <!-- bootstrap -->
+
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+
+  <!-- ico_monitoring -->
+  <link rel="stylesheet" type="text/css" href="../src/css/map.css" />
+
+    <style>
+    #map {
+      width: 100%;
+      height: 600px;
+    }
+    .section_info{
+
+      background-color: #fff;
+      border: 2px solid rgba(0,0,0,0.2);
+      background-clip: padding-box;
+      border-radius: 4px;
+      padding: 5px;
+    }
+    .obs_point {
+      text-align: center; /* Horizontally center the text (icon) */
+      line-height: 20px; /* Vertically center the text (icon) */
+    }
+    </style>
+
+
+
+
+
+</head>
+
+
+
+
+<body class="">
+
+
+  <div class="wrapper">
+
+    <div id="content" class="container-fluid pt-3 pl-4 pr-4">
+
+      <div class="content-title mb-4">
+        <div class="float-right">
+
+        </div>
+
+        <h1>SOCC - Sites map</h1>
+
+      </div>
+
+
+          <div class="alert alert-danger invisible" id="alert" role="alert">
+          </div>
+          <hr />
+          <div class="row">
+
+            <div class="col-6">
+
+              <div id="map" class="mx-auto"></div>
+
+            </div>
+
+
+            <div class="col-6">
+
+
+
+
+            </div>
+
+
+          </div>
+
+
+    </div><!-- ./content -->
+  </div><!-- ./wrapper -->
+
+
+
+  <!-- font awesome -->
+  <script src="https://kit.fontawesome.com/969e4441b7.js" crossorigin="anonymous"></script>
+
+  <script crossorigin="anonymous" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+  <!-- leaflet & dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"
+    integrity="sha256-KJI74PS1qv3+hue+yyIWK/l8TxvS9u4WX7QDrtHkHOo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"
+    integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"
+    integrity="sha256-siofc4Uwjlra3YWkwthOn8Uj69cNN4aMug/iOHNiRgs=" crossorigin="anonymous"></script>
+
+  <script src="../src/js/map.js"></script>
+
+  <script src="data/socc_monitoring_sites.js"></script>
+  <script src="../src/js/protocols/draw_socc.js"></script>
+  <script src="../src/js/draw_manager.js"></script>
+
+    <script>
+
+      /* Leaflet map init with some active layers and centered to Catalonia */
+      var map=MapMultiLayer.init(
+        {'active_layers':['aerial','osm', 'topo'],
+        'zoom':8,
+        'center':{'latitude':41.68111756290652,'longitude':1.702880859375},
+        'layer_selector_position': 'topleft'
+        }
+      );
+
+      /* Init drawing lib for the SOCC monitoringscheme. Only allows to draw or upload 6 LineStrings   */
+
+      MonitoringDraw.init('socc');
+      showSitesDistribution('socc');
+
+
+      function showSitesDistribution(scheme_code){
+
+            var active_layer='Itineraris actius';
+            var not_active_layer='Itineraris inactius';
+
+            MonitoringDraw.createLayer(active_layer,{
+                    color: "#28a745",
+                    fillColor: "#28a745",
+                    fillOpacity: 0.5,
+                    radius: 90.0
+                });
+
+            MonitoringDraw.createLayer(not_active_layer,{
+                    color: "#dc3545",
+                    fillColor: "#dc3545",
+                    fillOpacity: 0.5,
+                    radius: 90.0
+                });
+
+
+                MonitoringDraw.setPointClickContent(function (data) {
+
+                  var section_text='';
+                  var show_site='';
+
+
+
+                  if(data['section']) section_text='<br/><small>Secció: <span class="badge badge-primary">'+data['section']+'</span></small>';
+
+                  return  '<i class="fas fa-times-circle remove-filter"  data-toggle="tooltip" data-placement="left" title="" data-original-title="Elimina el filtre"></i>'+
+                  '<span class="badge badge-dark">'+data['code']+'</span>'+
+                  section_text+
+                  '<br/> <small>'+data['name']+'</small>'+ show_site;
+                 });
+
+               $( ".loader" ).show();
+
+
+                  active=0;
+                  not_active=0;
+                  $( ".loader" ).hide();
+
+                 $.each(monitoringsite_list, function(i, field){
+
+                   var coords=[field.centroid[1],field.centroid[0]];
+
+                   if(field['has_active_collaborator']) active++;
+                   else not_active++;
+
+                   var layer = field['has_active_collaborator'] ? active_layer : not_active_layer;
+
+
+                    if(coords[0]) MonitoringDraw.addLayerPoint(layer,coords, 'transect_centroid' ,field,false);
+                    if($(field.transect.features).length ==6) MonitoringDraw.addGeoJSONLayerGeometry(layer,field.transect,'transect',field,true,null);
+
+
+                 });
+
+                 MonitoringDraw.addLegendItem(active_layer,'#28a745','fa-square', active);
+                 MonitoringDraw.addLegendItem(not_active_layer,'#dc3545','fa-square', not_active);
+
+                 MonitoringDraw.createLayerSelectorLegend();
+
+      }
+
+
+
+    </script>
+
+
+</body>
+
+
+</html>
