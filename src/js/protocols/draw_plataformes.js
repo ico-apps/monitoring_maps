@@ -440,6 +440,7 @@
         map.setView([coordinates[1],coordinates[0]], 18);
         if(editable) editableLayers.addLayer(marker);
 
+        _plataformesObject.setPreciseNest(marker);
 
       }
       else if(_type=='nesting_area'){
@@ -449,7 +450,8 @@
         map.fitBounds(layer.getBounds());
 
         if(editable) editableLayers.addLayer(layer);
-
+        
+        _plataformesObject.setNestingArea(layer);
 
       }
       else if(_type=='obs_point'){
