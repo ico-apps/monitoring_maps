@@ -209,6 +209,7 @@
 
                     var props = feature.properties = feature.properties || {};
                     props.section = i;
+                    props.code = data['code']
 
                 }
             });
