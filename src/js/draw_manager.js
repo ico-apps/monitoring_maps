@@ -199,12 +199,17 @@
     _drawMonitoringSiteObject.selectFeature = function(id, code){
 
       var layer_group = L.featureGroup();
+      var last_properties = '';
 
       map.eachLayer(function(layer){
 
         if(layer.feature){
 
-          if(layer.feature.properties[id]==code)  layer_group.addLayer(layer);
+          if(layer.feature.properties[id]==code){
+            
+            layer_group.addLayer(layer);
+            last_properties = layer.feature.properties;
+          }  
           
 
         }
@@ -217,6 +222,8 @@
         map.fitBounds(layer_group.getBounds());
 
       }
+
+      return last_properties;
      
     };
   
