@@ -195,6 +195,32 @@
     };
 
 
+    /* Activate marker used in PECBMS project */
+    _drawMonitoringSiteObject.selectFeature = function(id, code){
+
+      var layer_group = L.featureGroup();
+
+      map.eachLayer(function(layer){
+
+        if(layer.feature){
+
+          if(layer.feature.properties[id]==code)  layer_group.addLayer(layer);
+          
+
+        }
+
+
+      });
+
+      if(layer_group.getLayers().length>0){
+
+        map.fitBounds(layer_group.getBounds());
+
+      }
+     
+    };
+  
+
     /* Center map viewport to @layer_id bounds */
     _drawMonitoringSiteObject.fitLayerContent = function(layer_id){
 
