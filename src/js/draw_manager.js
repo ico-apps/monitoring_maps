@@ -60,6 +60,11 @@
         geometry_manager=PlataformesSurvey.init(mode);
 
       }
+      else if(project=='base'){
+
+        geometry_manager=BaseSurvey.init(mode);
+
+      }
 
     };
 
@@ -346,6 +351,11 @@
           else if(project=='plataformes'){
 
             geometry_manager=PlataformesSurvey.init(mode);
+
+          }
+          else if(project=='base'){
+
+            geometry_manager=BaseSurvey.init(mode);
 
           }
 
