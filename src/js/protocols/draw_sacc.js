@@ -14,7 +14,8 @@
       var texts = {
         'draw_start':'Clica al mapa per a començar a dibuixar el transecte',
         'draw_ended':'Has acabat de dibuixar l\'itinerari',
-        'continuous_transect': 'Transecte continu'
+        'continuous_transect': 'Transecte continu',
+        'errors': {'invalid_shape': 'El transecte no té el format correcte'}
       };
 
 
@@ -81,43 +82,9 @@
 
       _transectSACCObject.addGeoJSONDrawGeometry = function (geometry, _type, editable, editableLayers){
 
-        /*if(_type=='site_location'){
-
-          var layer=L.geoJson(geometry, {style: style });
+          var layer=L.geoJson(geometry, {style: styles['transect'] });
           layer.addTo(map);
           map.fitBounds(layer.getBounds());
-
-        }*/
-
-        for (i = 1; i < 7; i++) {
-
-          var feature={};
-
-          feature['type']='Feature';
-          feature['geometry']={};
-
-          feature['geometry']['coordinates']=geometry['features'][i-1]['geometry']['coordinates'];
-          feature['geometry']['type']=geometry['features'][i-1]['geometry']['type'];
-
-
-          var layer=L.geoJson(feature, {style: styles['transect'],
-              onEachFeature: function (feature, layer) {
-
-                  var props = feature.properties = feature.properties || {};
-                  props.section = i;
-
-              }
-          });
-
-          editableLayers.addLayer(layer.getLayers()[0]);
-
-        }
-
-        editableLayers.addTo(map);
-
-        map.fitBounds(editableLayers.getBounds());
-
-
 
       }
 
@@ -125,53 +92,9 @@
 
       _transectSACCObject.addGeoJSONLayerGeometry = function (geometry, _type, data, layer_style, show_click){
 
-        var transect = new L.FeatureGroup();
-
-        if(_type=='transect'){
-
-          for (i = 1; i < 7; i++) {
-
-            var feature={};
-
-            feature['type']='Feature';
-            feature['geometry']={};
-
-            feature['geometry']['coordinates']=geometry['features'][i-1]['geometry']['coordinates'];
-            feature['geometry']['type']=geometry['features'][i-1]['geometry']['type'];
-
-            var style_soft = Object.assign({}, layer_style);
-            style_soft['opacity']=0.4;
-
-            if(i % 2==0) assigned_style=layer_style;
-            else assigned_style=style_soft;
-
-            var layer=L.geoJson(feature, {style: assigned_style,
-                onEachFeature: function (feature, layer) {
-
-                    var props = feature.properties = feature.properties || {};
-                    props.section = i;
-
-                }
-            });
-
-
-            layer.on('click', function (e) {
-
-                //TODO: revisar això
-                data['section']=e.layer.feature.properties.section;
-                MonitoringDraw.showPoint(data);
-
-            });
-
-            transect.addLayer(layer);
-
-
-          }
-
-
-        }
-
-        return transect;
+        var layer=L.geoJson(geometry, {style: styles['transect'] });
+        layer.addTo(map);
+        map.fitBounds(layer.getBounds());
 
       };
 
@@ -248,7 +171,7 @@
 
       _transectSACCObject.isValid = function (data, _type){
 
-       if(data.type=='FeatureCollection'){
+       if(data.type=='FeatureCollection' || data.type=='Feature'){
 
          return true;
 
