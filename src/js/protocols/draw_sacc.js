@@ -93,8 +93,8 @@
       _transectSACCObject.addGeoJSONLayerGeometry = function (geometry, _type, data, layer_style, show_click){
 
         var layer=L.geoJson(geometry, {style: styles['transect'] });
-        layer.addTo(map);
-        map.fitBounds(layer.getBounds());
+
+        return layer;
 
       };
 
