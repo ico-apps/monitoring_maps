@@ -7,14 +7,12 @@
       var _transectSACCObject={};
 
       var drawControl='';
-      var info = L.control({'position':'bottomleft'});
 
       var _div='';
 
       var texts = {
         'draw_start':'Clica al mapa per a començar a dibuixar el transecte',
         'draw_ended':'Has acabat de dibuixar l\'itinerari',
-        'continuous_transect': 'Transecte continu',
         'errors': {'invalid_shape': 'El transecte no té el format correcte'}
       };
 
@@ -55,7 +53,6 @@
       _transectSACCObject.setDrawControl = function(draw_cont){
 
         drawControl=draw_cont;
-        info.addTo(map);
 
       };
 
@@ -222,8 +219,6 @@
          _transectSACCObject.deletedFeatures();
          events['update_transect']({});
 
-         info.update();
-
        });
 
        map.on(L.Draw.Event.DRAWSTART, function (e) {
@@ -259,23 +254,6 @@
       };
 
 
-
-      // Info window for section creation
-      info.onAdd = function (map) {
-        var container = L.DomUtil.create('div', 'section_info'); // create a div with a class "info"
-        this._div = L.DomUtil.create('div', 'info', container );
-        this.cb = L.DomUtil.create('div', 'cb', container );
-        this.cb.innerHTML = '<form><input id="continuous_transect" type="checkbox" checked/>'+texts['continuous_transect']+'</form>';
-
-        this.update();
-        return container;
-      };
-
-      // method that we will use to update the control based on feature properties passed
-      info.update = function () {
-
-
-      };
 
       return _transectSACCObject;
 
