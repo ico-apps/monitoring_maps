@@ -20,8 +20,8 @@
       var styles = {
         'transect': {
           "color": "#f0982a",
-          "weight": 2,
-          "opacity": 0.8
+          "weight": 3,
+          "opacity": 1
         }
       };
 
