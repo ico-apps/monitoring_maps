@@ -135,6 +135,7 @@
 
         L.drawLocal.draw.handlers.polyline.tooltip.start = 'Clica per a començar a dibuixar un transecte';
         L.drawLocal.draw.handlers.polyline.tooltip.cont = 'Clica sobre l\'últim punt per finalitzar el transecte';
+        L.drawLocal.draw.handlers.polyline.tooltip.end = 'Clica sobre l\'últim punt per finalitzar el transecte';
 
       };
 
