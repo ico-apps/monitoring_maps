@@ -60,6 +60,11 @@
         geometry_manager=PlataformesSurvey.init(mode);
 
       }
+      else if(project=='sacc'){
+
+        geometry_manager=SACCTransect.init();
+
+      }
       else if(project=='base'){
 
         geometry_manager=BaseSurvey.init(mode);
@@ -353,6 +358,11 @@
             geometry_manager=PlataformesSurvey.init(mode);
 
           }
+          else if(project=='sacc'){
+
+            geometry_manager=SACCTransect.init();
+
+          }
           else if(project=='base'){
 
             geometry_manager=BaseSurvey.init(mode);
@@ -475,18 +485,16 @@
       }
       else if(this.project=='plataformes') {
 
-        console.log(features);
-
         var coordinates=[];
 
         features.forEach(function (feature, index) {
 
-
-          if(feature.geometry.type=='Polygon') coordinates.push(feature.geometry.coordinates);
+          geometry_type = feature.geometry.type;
+          coordinates.push(feature.geometry.coordinates);
 
         });
 
-        return {type: "Feature", geometry: {type: "Polygon", coordinates: coordinates[0] }};
+        return {type: "Feature", geometry: {type: geometry_type, coordinates: coordinates[0] }};
 
       }
       else{

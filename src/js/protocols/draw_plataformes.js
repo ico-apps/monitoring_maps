@@ -8,8 +8,8 @@
       var _plataformesObject={};
 
       var obs_point='';
-      var nest_precise_location = '';      
-      var nesting_area = ''; 
+      var nest_precise_location = '';
+      var nesting_area = '';
 
       var drawControl='';
 
@@ -399,7 +399,7 @@
     _plataformesObject.addGeoJSONLayerGeometry = function (geometry, _type, data, layer_style, show_click){
 
       if(_type=='nest_precise'){
-        
+
         var coordinates = geometry['geometry']['coordinates'];
 
         var layer = new L.Marker([coordinates[1],coordinates[0]], {icon: L.divIcon({
@@ -450,7 +450,7 @@
         map.fitBounds(layer.getBounds());
 
         if(editable) editableLayers.addLayer(layer);
-        
+
         _plataformesObject.setNestingArea(layer);
 
       }
