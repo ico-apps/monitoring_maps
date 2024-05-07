@@ -49,7 +49,7 @@
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
           id: 'mapbox/streets-v11',
           tileSize: 512,
-          maxZoom: 18,
+          maxZoom: 21,
           zoomOffset: -1,
           accessToken: 'pk.eyJ1IjoiaWNvY2VsbHMiLCJhIjoiY2pqZ3V1ZXE4MjEwYjNrb2xnZjZwYnFzayJ9.VfuiJ0uv2dT9HjTIVqOOKg'
         }).addTo(map);
@@ -63,6 +63,8 @@
             layers: 'topo',
             format: 'image/png',
             continuousWorld: true,
+            maxZoom: 21,
+            maxNativeZoom: 19,
             attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC',
         });
 
@@ -70,6 +72,7 @@
             layers: 'orto',
             format: 'image/png',
             continuousWorld: true,
+            maxZoom: 21,
             attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC',
         });
 
