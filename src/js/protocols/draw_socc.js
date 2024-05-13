@@ -209,6 +209,9 @@
 
                     var props = feature.properties = feature.properties || {};
                     props.section = i;
+                    props.name = data['name']
+                    props.code = data['code']
+                    props.has_active_collaborator = data['has_active_collaborator']
 
                 }
             });
