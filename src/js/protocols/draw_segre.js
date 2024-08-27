@@ -273,8 +273,6 @@
 
                    _raptorCensusObject.setObservation(layer);
 
-                   layer['options']['icon']['options']['html']=observations.length;
-
                    //obs_location_conv={'Fora de quadrat':'1', 'Fora de l\'àrea visible':'2', 'Dins de l\'àrea visible':'3'}
                    //TODO: when location_shape add case 2
                    var inside_square=0;
@@ -526,8 +524,10 @@
 
      _raptorCensusObject.clear = function (){
 
-       if(mode=='observations') this.clearObservations();
-       else this.clearSurveyLocation();
+       if(this.mode=='observations')
+         this.clearObservations();
+       else
+         this.clearSurveyLocation();
 
      };
 
