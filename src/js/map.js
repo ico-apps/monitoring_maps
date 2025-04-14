@@ -45,35 +45,25 @@
       map = L.map('map',default_config).setView([config['center']['latitude'],config['center']['longitude']], config['zoom']);
 
 
-      osm = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          id: 'mapbox/streets-v11',
-          tileSize: 512,
-          maxZoom: 21,
-          zoomOffset: -1,
-          accessToken: 'pk.eyJ1IjoiaWNvY2VsbHMiLCJhIjoiY2pqZ3V1ZXE4MjEwYjNrb2xnZjZwYnFzayJ9.VfuiJ0uv2dT9HjTIVqOOKg'
-        }).addTo(map);
-
       catastro = L.tileLayer.wms('http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?', {
           layers: 'catastro',
           attribution: 'Dirección General del Catastro - Ministerio de Hacienda y Función Pública'
         });
 
-      topo = L.tileLayer.wms("https://geoserveis.icgc.cat/icc_mapesmultibase/noutm/wms/service?", {
-            layers: 'topo',
-            format: 'image/png',
-            continuousWorld: true,
-            maxZoom: 21,
-            maxNativeZoom: 19,
-            attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC',
-        });
+      topo = L.tileLayer.wms("https://geoserveis.icgc.cat/servei/catalunya/mapa-base/wms?", {
+          layers: 'estandard',
+          format: 'image/png',
+          continuousWorld: true,
+          attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC',
+          maxZoom: 21
+        }).addTo(map);
 
-      aerial = L.tileLayer.wms("https://geoserveis.icgc.cat/icc_mapesmultibase/noutm/wms/service?", {
-            layers: 'orto',
-            format: 'image/png',
-            continuousWorld: true,
-            maxZoom: 21,
-            attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC',
+      aerial = L.tileLayer.wms("https://geoserveis.icgc.cat/servei/catalunya/mapa-base/wms?", {
+          layers: 'orto-hibrida',
+          format: 'image/png',
+          continuousWorld: true,
+          attribution: 'Institut Cartogràfic i Geològic de Catalunya -ICGC',
+          maxZoom: 21
         });
 
 
@@ -92,7 +82,6 @@
 
 
       // Active layers
-      if (layers_config.indexOf('osm') != -1) active_layers['Carreteres <span class="source">OpenStreetMap</span>'] = osm;
       if (layers_config.indexOf('catastro') != -1) active_layers['Cadastre <span class="source">Ministerio de Hacienda</span>'] = catastro;
       if (layers_config.indexOf('topo') != -1) active_layers['Topogràfic <span class="source">Institut Cartogràfic i Geològic de Catalunya</span>'] = topo;
       if (layers_config.indexOf('aerial') != -1) active_layers['Aèria <span class="source">Institut Cartogràfic i Geològic de Catalunya</span>'] = aerial;
