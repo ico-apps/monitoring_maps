@@ -83,8 +83,10 @@
 
             <div class="col-6">
 
-
-
+              <button id="zoom_to" class="btn btn-dark">Zoom to feature by property id</button>
+              <input type="text" name="code" maxlength="255" class="form-control" placeholder="Codi" title="" required="" id="id_code" value="1">
+              <input type="text" name="type" maxlength="255" class="form-control" placeholder="Codi" title="" required="" id="type" value="code">
+              <textarea class="form-control"></textarea>
 
             </div>
 
@@ -201,6 +203,13 @@
                  MonitoringDraw.updateLegend();
 
       }
+
+      $( "#zoom_to" ).on( "click", function() {
+
+        var data = MonitoringDraw.selectFeature($('#type').val(),$('#id_code').val());
+        $('textarea').val(JSON.stringify(data));
+
+      });
 
 
 
